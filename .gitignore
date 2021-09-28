@@ -22,6 +22,7 @@ yarn-error.log*
 
 # dependencies
 client/node_modules
+client/.env
 server/node_modules
 /.pnp
 .pnp.js
