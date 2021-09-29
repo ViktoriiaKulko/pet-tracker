@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import GlobalStyles from './GlobalStyles';
 import Header from './Header';
 import Home from './Home';
+import Profile from './Profile';
+import Pet from './Pet';
 
 const App = () => {
   return (
@@ -17,6 +19,16 @@ const App = () => {
           <Route exact path="/">
             <Home />
           </Route>
+
+          <Route path="/profile">
+            <Profile />
+          </Route>
+
+          <Route path="/pet/:id">
+            <Pet />
+          </Route>
+
+          <Route path="">404: Oops!</Route>
         </Switch>
       </Main>
     </BrowserRouter>

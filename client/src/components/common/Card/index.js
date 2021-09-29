@@ -7,7 +7,9 @@ import Button from '../Button';
 const Card = ({ image, name, species, date, address, selected, status }) => {
   return (
     <Paper>
-      <Wrapper className={selected ? 'selected' : ''}>
+      {/* mark as selected the posting selected on the map */}
+      {/* mark as outlined the posting in the user's profile */}
+      <Wrapper selected={selected} outlined={!!status}>
         <FlexContainer>
           <Image style={{ backgroundImage: `url('${image}')` }} />
           <div>
@@ -23,10 +25,16 @@ const Card = ({ image, name, species, date, address, selected, status }) => {
 
         <Description>Long long description</Description>
 
-        {status && (
+        {/* show these blocks in the user's profile depends on the posting status */}
+        {status === 'active' && (
           <Status>
-            {/* <Button>I have found</Button> */}
-            <Message>Was closed</Message>
+            <Button>Close posting</Button>
+          </Status>
+        )}
+
+        {status === 'closed' && (
+          <Status>
+            <Message>Posting was closed</Message>
           </Status>
         )}
       </Wrapper>
@@ -37,14 +45,14 @@ const Card = ({ image, name, species, date, address, selected, status }) => {
 const Wrapper = styled.div`
   font-size: 12px;
   line-height: 16px;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
+  border-color: ${(props) =>
+    props.selected ? 'var(--accent-secondary-color)' : 'transparent'};
+  border-color: ${(props) =>
+    props.outlined ? 'var(--accent-primary-color)' : 'transparent'};
   border-radius: 16px;
   transition: border-color 0.3s;
-  padding: 18px;
-
-  &.selected {
-    border-color: var(--accent-secondary-color);
-  }
+  padding: 19px;
 `;
 
 const FlexContainer = styled.div`

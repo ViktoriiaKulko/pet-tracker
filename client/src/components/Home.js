@@ -27,7 +27,7 @@ const Home = () => {
 
       <Content>
         <Cards>
-          <Card />
+          <Card selected />
         </Cards>
 
         <div id="map"></div>
