@@ -1,11 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 
-const Icon = ({ children }) => {
-  return <Wrapper>{children}</Wrapper>;
-};
-
-const Wrapper = styled.div`
+const Icon = styled.div`
   display: inline-block;
   width: 1em;
   height: 1em;

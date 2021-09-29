@@ -2,13 +2,22 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   :root {
+    /* color */
     --primary-color: #fff;
+
     --secondary-color: #000;
     --secondary-color-50: rgba(0, 0, 0, 0.5);
     --secondary-color-25: rgba(0, 0, 0, 0.25);
-    --accent-primary-color: #AA80FF;
-    --body-bg-color: #ebebeb;
+    --secondary-color-12: rgba(0, 0, 0, 0.12);
 
+    --accent-primary-color: #aa80ff;
+    --accent-secondary-color: #ff9e80;
+
+    --neutral-color-100: #f5f5f5;
+    --neutral-color-200: #ebebeb;
+    --neutral-color-300: #e0e0e0;
+
+    /* width */
     --app-width: 1024px;
   }
 
@@ -16,6 +25,10 @@ export default createGlobalStyle`
   v2.0 | 20110126
   License: none (public domain)
 */
+
+* {
+  box-sizing: border-box;
+}
 
 html,
 body {
@@ -43,7 +56,6 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
   vertical-align: baseline;
-  box-sizing: border-box;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -54,7 +66,7 @@ footer, header, hgroup, menu, nav, section {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: var(--body-bg-color);
+  background-color: var(--neutral-color-200);
 	line-height: 1;
 }
 

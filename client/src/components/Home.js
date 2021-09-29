@@ -1,19 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
+import Filters from './Filters';
 import Card from './common/Card';
 
+// let map;
 const Home = () => {
+  // useEffect(() => {
+  //   function initMap() {
+  //     map = new window.google.maps.Map(document.getElementById('map'), {
+  //       center: { lat: -34.397, lng: 150.644 },
+  //       zoom: 8,
+  //     });
+  //   }
+
+  //   setTimeout(initMap, 50);
+
+  //   return () => {
+  //     map = null;
+  //   };
+  // }, []);
+
   return (
     <div>
-      <div>filters</div>
+      <Filters />
 
       <Content>
         <Cards>
           <Card />
         </Cards>
 
-        <div>map</div>
+        <div id="map"></div>
       </Content>
     </div>
   );

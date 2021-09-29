@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Paper from '../Paper';
+import Button from '../Button';
 
-const Card = ({ image, name, species, date, address }) => {
+const Card = ({ image, name, species, date, address, selected, status }) => {
   return (
     <Paper>
-      <Wrapper>
+      <Wrapper className={selected ? 'selected' : ''}>
         <FlexContainer>
           <Image style={{ backgroundImage: `url('${image}')` }} />
           <div>
@@ -21,6 +22,13 @@ const Card = ({ image, name, species, date, address }) => {
         </FlexContainer>
 
         <Description>Long long description</Description>
+
+        {status && (
+          <Status>
+            {/* <Button>I have found</Button> */}
+            <Message>Was closed</Message>
+          </Status>
+        )}
       </Wrapper>
     </Paper>
   );
@@ -29,7 +37,14 @@ const Card = ({ image, name, species, date, address }) => {
 const Wrapper = styled.div`
   font-size: 12px;
   line-height: 16px;
-  padding: 20px;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  transition: border-color 0.3s;
+  padding: 18px;
+
+  &.selected {
+    border-color: var(--accent-secondary-color);
+  }
 `;
 
 const FlexContainer = styled.div`
@@ -72,6 +87,16 @@ const Address = styled.div`
 const Description = styled.div`
   color: var(--secondary-color-50);
   margin-top: 16px;
+`;
+
+const Status = styled.div`
+  margin-top: 12px;
+`;
+
+const Message = styled.div`
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--accent-secondary-color);
 `;
 
 export default Card;

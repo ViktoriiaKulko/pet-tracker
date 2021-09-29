@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = ({ height, type = 'button', handleClick, children }) => {
+const Button = ({ type = 'button', disabled, handleClick, children }) => {
   return (
-    <Wrapper height={height} type={type} onClick={handleClick}>
+    <StyledButton type={type} disabled={disabled} onClick={handleClick}>
       {children}
-    </Wrapper>
+    </StyledButton>
   );
 };
 
-const Wrapper = styled.button`
+const StyledButton = styled.button`
   width: 100%;
-  height: ${(props) => (props.height ? `${props.height}px` : '48px')};
+  height: 48px;
   font-size: 16px;
   line-height: 24px;
   color: var(--primary-color);
@@ -28,6 +28,11 @@ const Wrapper = styled.button`
 
   &:active {
     transform: scale(1);
+  }
+
+  &:disabled {
+    background-color: var(--neutral-color-300);
+    pointer-events: none;
   }
 `;
 

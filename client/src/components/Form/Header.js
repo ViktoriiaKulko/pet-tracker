@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import dog from '../../../assets/images/dog.svg';
-import cat from '../../../assets/images/cat.svg';
-import hamster from '../../../assets/images/hamster.svg';
-import another from '../../../assets/images/all-pets.svg';
+import dog from '../../assets/images/dog.svg';
+import cat from '../../assets/images/cat.svg';
+import hamster from '../../assets/images/hamster.svg';
+import another from '../../assets/images/all-pets.svg';
 
-import Chip from './Chip';
+import Title from '../common/Title';
+import { Chip } from '../common/Chip';
 import Species from './Species';
 
 const species = [
@@ -20,6 +21,7 @@ const ModalHeader = () => {
   return (
     <Header>
       <Title>Form</Title>
+      <Subtitle>Please provide as much detail as possible</Subtitle>
 
       <ChipGroup>
         <Chip selected>Found</Chip>
@@ -27,8 +29,13 @@ const ModalHeader = () => {
       </ChipGroup>
 
       <SpeciesGroup>
-        {species.map((item, ind) => (
-          <Species key={ind} title={item.title} image={item.image} />
+        {species.map((item, index) => (
+          <Species
+            key={index}
+            title={item.title}
+            image={item.image}
+            selected={index === 1}
+          />
         ))}
       </SpeciesGroup>
     </Header>
@@ -36,15 +43,16 @@ const ModalHeader = () => {
 };
 
 const Header = styled.div`
-  background-color: var(--body-bg-color);
+  background-color: var(--neutral-color-200);
   padding: 40px;
 `;
 
-const Title = styled.h1`
-  font-size: 32px;
-  line-height: 40px;
-  font-weight: 700;
+const Subtitle = styled.div`
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--secondary-color-25);
   text-align: center;
+  margin-top: 4px;
   margin-bottom: 40px;
 `;
 

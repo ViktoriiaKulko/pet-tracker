@@ -1,36 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import ModalHeader from './ModalHeader';
-import ModalBody from './ModalBody';
+import Paper from '../Paper';
+import Title from '../Title';
 
-const Modal = () => {
+const Modal = ({ title, children }) => {
   return (
-    <Wrapper>
-      <Form>
-        <ModalHeader />
-        <ModalBody />
-      </Form>
-    </Wrapper>
+    <StyledModal>
+      <Paper>
+        <Wrapper>
+          <Title>{title}</Title>
+          <Body>{children}</Body>
+        </Wrapper>
+      </Paper>
+    </StyledModal>
   );
 };
 
-const Wrapper = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--secondary-color-50);
+const StyledModal = styled.div`
+  width: 400px;
 `;
 
-const Form = styled.form`
-  width: 560px;
-  border-radius: 16px;
-  overflow: hidden;
+const Wrapper = styled.div`
+  padding: 40px;
+`;
+
+const Body = styled.div`
+  margin-top: 40px;
 `;
 
 export default Modal;
