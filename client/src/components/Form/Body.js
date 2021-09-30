@@ -5,11 +5,20 @@ import Input from '../common/Input';
 import InputFile from '../common/InputFile';
 import Button from '../common/Button';
 
-const Body = ({ action, pet, formData, handleChange, handleSubmit }) => {
+const Body = ({
+  action,
+  unknownPet,
+  formData,
+  handleChange,
+  images,
+  setImages,
+  handleSubmit,
+}) => {
   return (
     <Wrapper>
       <Fields>
-        {pet === 'another' && (
+        {/* if the pet species isn't in the species list */}
+        {unknownPet && (
           <Input
             label="Species"
             value={formData.species}
@@ -72,7 +81,7 @@ const Body = ({ action, pet, formData, handleChange, handleSubmit }) => {
           handleChange={handleChange}
         />
 
-        <InputFile />
+        <InputFile images={images} setImages={setImages} />
       </Fields>
 
       <Button type="submit" disabled={true} handleClick={handleSubmit}>

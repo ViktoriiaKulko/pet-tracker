@@ -13,6 +13,7 @@ const ModalHeader = ({ action, setAction, pet, setPet }) => {
       <Title>Information about the pet</Title>
       <Subtitle>Please provide as much detail as possible</Subtitle>
 
+      {/* select the action: a user lost or found a pet */}
       <ChipGroup>
         <Chip
           selected={action === 'found'}
@@ -29,6 +30,7 @@ const ModalHeader = ({ action, setAction, pet, setPet }) => {
         </Chip>
       </ChipGroup>
 
+      {/* select the pet species a user lost or found */}
       <SpeciesGroup>
         {species.map((item) => (
           <Species

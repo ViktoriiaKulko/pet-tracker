@@ -10,14 +10,40 @@ const Form = () => {
   const [action, setAction] = useState('found');
   const [pet, setPet] = useState('dog');
   const [formData, setFormData] = useState(initialFormData);
+  const [images, setImages] = useState([]);
 
   const handleChange = (value, name) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ ...formData, pet });
+
+    // upload the images to cloudinary
+    const imageUrls = [];
+    await Promise.all(
+      images.map(async (elem) => {
+        const data = new FormData();
+        data.append('file', elem);
+        data.append('upload_preset', 'petTracker');
+
+        try {
+          const res = await fetch(
+            `${process.env.REACT_APP_CLOUDINARY_API_BASE_URL}image/upload`,
+            { method: 'POST', body: data }
+          );
+          if (res.ok) {
+            const file = await res.json();
+            imageUrls.push(file.secure_url);
+          }
+        } catch (err) {
+          // TODO: set an error message
+          console.log(err);
+        }
+      })
+    );
+
+    console.log({ ...formData, pet, imageUrls });
   };
 
   return (
@@ -25,9 +51,11 @@ const Form = () => {
       <Header action={action} setAction={setAction} pet={pet} setPet={setPet} />
       <Body
         action={action}
-        pet={pet}
+        unknownPet={pet === 'another'}
         formData={formData}
         handleChange={handleChange}
+        images={images}
+        setImages={setImages}
         handleSubmit={handleSubmit}
       />
     </Wrapper>
