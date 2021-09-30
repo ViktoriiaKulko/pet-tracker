@@ -6,6 +6,7 @@ import Card from './common/Card';
 
 // let map;
 const Home = () => {
+  // ---- map uploading ----------------------------
   // useEffect(() => {
   //   function initMap() {
   //     map = new window.google.maps.Map(document.getElementById('map'), {
@@ -20,6 +21,7 @@ const Home = () => {
   //     map = null;
   //   };
   // }, []);
+  //------------------------------------------------
 
   return (
     <div>

@@ -3,7 +3,11 @@ import styled from 'styled-components';
 
 const Species = ({ title, image, selected, handleClick }) => {
   return (
-    <Wrapper className={selected ? 'selected' : ''} onClick={handleClick}>
+    <Wrapper
+      className={selected ? 'selected' : ''}
+      type="button"
+      onClick={handleClick}
+    >
       <ImageBox className={title === 'Another' ? 'full-size' : ''}>
         <Image src={image} alt={title} />
       </ImageBox>

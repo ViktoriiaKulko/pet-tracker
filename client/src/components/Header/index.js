@@ -4,14 +4,15 @@ import styled from 'styled-components';
 import Paper from '../common/Paper';
 import Controls from './Controls';
 
-const Header = () => {
+const Header = ({ showForm }) => {
   return (
     <Paper>
       <Wrapper>
         <Logo>PetTracker</Logo>
         <Controls />
-        <div>sing in</div>
-        <button>+</button>
+        <button type="button" onClick={showForm}>
+          show form
+        </button>
       </Wrapper>
     </Paper>
   );

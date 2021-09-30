@@ -18,6 +18,8 @@ const Input = ({
           type={type}
           value={value}
           name={name}
+          rows={3}
+          required={required}
           onChange={(e) => handleChange(e.target.value, name)}
         ></textarea>
       ) : (
@@ -26,6 +28,7 @@ const Input = ({
           type={type}
           value={value}
           name={name}
+          required={required}
           onChange={(e) => handleChange(e.target.value, name)}
         />
       )}

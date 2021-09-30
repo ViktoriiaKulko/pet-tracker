@@ -1,42 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import Input from '../common/Input';
 import InputFile from '../common/InputFile';
 import Button from '../common/Button';
 
-const initialFormData = {
-  fullName: '',
-  name: '',
-  gender: '',
-  age: '',
-  colour: '',
-  traits: '',
-  date: '',
-  address: '',
-};
-
-const Body = () => {
-  const [formData, setFormData] = useState(initialFormData);
-
-  // handle the form inputs changes
-  const handleChange = (value, name) => {
-    setFormData({ ...formData, [name]: value });
-  };
-
+const Body = ({ action, pet, formData, handleChange, handleSubmit }) => {
   return (
     <Wrapper>
       <Fields>
-        <Input
-          label="Full name"
-          value={formData.fullName}
-          name="fullName"
-          required
-          handleChange={handleChange}
-        />
+        {pet === 'another' && (
+          <Input
+            label="Species"
+            value={formData.species}
+            name="species"
+            handleChange={handleChange}
+          />
+        )}
 
         <Input
-          label="Pet's name"
+          label="Name"
           value={formData.name}
           name="name"
           handleChange={handleChange}
@@ -64,15 +47,9 @@ const Body = () => {
         />
 
         <Input
-          label="Other traits"
-          value={formData.traits}
-          name="traits"
-          isTextarea
-          handleChange={handleChange}
-        />
-
-        <Input
-          label="When did you found/lost the pet?"
+          label={`When did you ${
+            action === 'found' ? 'find' : 'lose'
+          } the pet?`}
           value={formData.date}
           name="date"
           required
@@ -80,17 +57,27 @@ const Body = () => {
         />
 
         <Input
-          label="What is the approximate address you found/lost the pet?"
+          label={`What is the approximate address you ${action} the pet?`}
           value={formData.address}
           name="address"
           required
           handleChange={handleChange}
         />
 
+        <Input
+          label="Other traits"
+          value={formData.traits}
+          name="traits"
+          isTextarea
+          handleChange={handleChange}
+        />
+
         <InputFile />
       </Fields>
 
-      <Button type="submit">Submit</Button>
+      <Button type="submit" disabled={true} handleClick={handleSubmit}>
+        Submit
+      </Button>
     </Wrapper>
   );
 };
@@ -101,15 +88,8 @@ const Wrapper = styled.div`
 `;
 
 const Fields = styled.div`
-  margin-bottom: 16px;
-
   & > div {
     margin-bottom: 24px;
-
-    &:last-child {
-      display: block;
-      margin: 0 auto 16px;
-    }
   }
 `;
 

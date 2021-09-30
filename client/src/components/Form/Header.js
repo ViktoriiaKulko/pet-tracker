@@ -1,40 +1,42 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import dog from '../../assets/images/dog.svg';
-import cat from '../../assets/images/cat.svg';
-import hamster from '../../assets/images/hamster.svg';
-import another from '../../assets/images/all-pets.svg';
+import { species } from '../../settings';
 
 import Title from '../common/Title';
 import { Chip } from '../common/Chip';
 import Species from './Species';
 
-const species = [
-  { title: 'Dog', image: dog },
-  { title: 'Cat', image: cat },
-  { title: 'Hamster', image: hamster },
-  { title: 'Another', image: another },
-];
-
-const ModalHeader = () => {
+const ModalHeader = ({ action, setAction, pet, setPet }) => {
   return (
     <Header>
-      <Title>Form</Title>
+      <Title>Information about the pet</Title>
       <Subtitle>Please provide as much detail as possible</Subtitle>
 
       <ChipGroup>
-        <Chip selected>Found</Chip>
-        <Chip>Lost</Chip>
+        <Chip
+          selected={action === 'found'}
+          handleClick={() => setAction('found')}
+        >
+          Found
+        </Chip>
+
+        <Chip
+          selected={action === 'lost'}
+          handleClick={() => setAction('lost')}
+        >
+          Lost
+        </Chip>
       </ChipGroup>
 
       <SpeciesGroup>
-        {species.map((item, index) => (
+        {species.map((item) => (
           <Species
-            key={index}
+            key={item.id}
             title={item.title}
             image={item.image}
-            selected={index === 1}
+            selected={pet === item.id}
+            handleClick={() => setPet(item.id)}
           />
         ))}
       </SpeciesGroup>
@@ -61,6 +63,7 @@ const ChipGroup = styled.div`
   margin-bottom: 40px;
 
   & > button {
+    flex: 1;
     margin-right: 20px;
 
     &:last-child {
