@@ -14,6 +14,7 @@ const Body = ({
   images,
   setImages,
   handleSubmit,
+  errorMessage,
 }) => {
   return (
     <Wrapper>
@@ -22,22 +23,25 @@ const Body = ({
         {unknownPet && (
           <Input
             label="Species"
-            value={formData.species}
+            value={formData.species.value}
             name="species"
+            required
+            error={formData.species.error}
+            helperText={formData.species.helperText}
             handleChange={handleChange}
           />
         )}
 
         <Input
           label="Name"
-          value={formData.name}
+          value={formData.name.value}
           name="name"
           handleChange={handleChange}
         />
 
         <Select
           label="Gender"
-          value={formData.gender}
+          value={formData.gender.value}
           name="gender"
           options={[
             { title: 'Male', value: 'male' },
@@ -47,23 +51,16 @@ const Body = ({
           handleChange={handleChange}
         />
 
-        {/* <Input
-          label="Gender"
-          value={formData.gender}
-          name="gender"
-          handleChange={handleChange}
-        /> */}
-
         <Input
           label="Age"
-          value={formData.age}
+          value={formData.age.value}
           name="age"
           handleChange={handleChange}
         />
 
         <Input
           label="Colour"
-          value={formData.colour}
+          value={formData.colour.value}
           name="colour"
           handleChange={handleChange}
         />
@@ -72,24 +69,28 @@ const Body = ({
           label={`When did you ${
             action === 'found' ? 'find' : 'lose'
           } the pet?`}
-          value={formData.date}
+          value={formData.date.value}
           name="date"
           required
+          error={formData.date.error}
+          helperText={formData.date.helperText}
           date
           handleChange={handleChange}
         />
 
         <Input
           label={`What is the approximate address you ${action} the pet?`}
-          value={formData.address}
+          value={formData.address.value}
           name="address"
           required
+          error={formData.address.error}
+          helperText={formData.address.helperText}
           handleChange={handleChange}
         />
 
         <Input
           label="Other traits"
-          value={formData.traits}
+          value={formData.traits.value}
           name="traits"
           multiline
           handleChange={handleChange}
@@ -98,9 +99,11 @@ const Body = ({
         <InputFile images={images} setImages={setImages} />
       </Fields>
 
-      <Button type="submit" disabled={true} handleClick={handleSubmit}>
+      <Button type="submit" handleClick={handleSubmit}>
         Submit
       </Button>
+
+      {errorMessage && <Message>{errorMessage}</Message>}
     </Wrapper>
   );
 };
@@ -114,6 +117,13 @@ const Fields = styled.div`
   & > div {
     margin-bottom: 24px;
   }
+`;
+
+const Message = styled.div`
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--error-color);
+  margin-top: 8px;
 `;
 
 export default Body;

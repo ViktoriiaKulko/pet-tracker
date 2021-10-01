@@ -23,6 +23,8 @@ const Input = ({
   value,
   name,
   required,
+  error,
+  helperText,
   multiline,
   date,
   handleChange,
@@ -35,6 +37,8 @@ const Input = ({
       value={value}
       required={required}
       fullWidth
+      helperText={helperText}
+      error={error}
       multiline={multiline}
       rows={3}
       InputProps={{
@@ -48,12 +52,16 @@ const Input = ({
 
 const StyledInput = styled(TextField)`
   caret-color: var(--accent-primary-color);
-  border-bottom: 1px solid var(--secondary-color-25) !important;
+
+  & .MuiInput-root {
+    border-bottom: 1px solid var(--secondary-color-25);
+  }
 
   & .MuiInput-root::before,
   & .MuiInput-root::after {
     display: none;
   }
+
   & .MuiInputLabel-root,
   & .MuiInputLabel-root.Mui-focused {
     color: var(--secondary-color-50);

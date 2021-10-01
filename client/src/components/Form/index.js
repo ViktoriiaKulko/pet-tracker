@@ -11,9 +11,11 @@ const Form = () => {
   const [pet, setPet] = useState('dog');
   const [formData, setFormData] = useState(initialFormData);
   const [images, setImages] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
+  // handle inputs changes
   const handleChange = (value, name) => {
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: { ...formData[name], value } });
   };
 
   const handleSubmit = async (e) => {
@@ -32,12 +34,19 @@ const Form = () => {
             `${process.env.REACT_APP_CLOUDINARY_API_BASE_URL}image/upload`,
             { method: 'POST', body: data }
           );
+
           if (res.ok) {
             const file = await res.json();
             imageUrls.push(file.secure_url);
+          } else {
+            setErrorMessage(
+              'Could not upload your images. Please, try again or reload the page'
+            );
           }
         } catch (err) {
-          // TODO: set an error message
+          setErrorMessage(
+            'Could not upload your images. Please, try again or reload the page'
+          );
           console.log(err);
         }
       })
@@ -57,6 +66,7 @@ const Form = () => {
         images={images}
         setImages={setImages}
         handleSubmit={handleSubmit}
+        errorMessage={errorMessage}
       />
     </Wrapper>
   );

@@ -13,6 +13,8 @@ export default createGlobalStyle`
     --accent-primary-color: #aa80ff;
     --accent-secondary-color: #ff9e80;
 
+    --error-color: #d32f2f;
+
     --neutral-color-100: #f5f5f5;
     --neutral-color-200: #ebebeb;
     --neutral-color-300: #e0e0e0;

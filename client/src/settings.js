@@ -11,12 +11,12 @@ export const species = [
 ];
 
 export const initialFormData = {
-  species: '',
-  name: '',
-  gender: '',
-  age: '',
-  colour: '',
-  traits: '',
-  date: '',
-  address: '',
+  species: { value: '' },
+  name: { value: '' },
+  gender: { value: '' },
+  age: { value: '' },
+  colour: { value: '' },
+  traits: { value: '' },
+  date: { value: '' },
+  address: { value: '' },
 };
