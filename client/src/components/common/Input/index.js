@@ -1,90 +1,62 @@
 import React from 'react';
+import { IMaskInput } from 'react-imask';
 import styled from 'styled-components';
+import TextField from '@mui/material/TextField';
+
+// mask for date inputs
+const DateMask = React.forwardRef((props, ref) => {
+  const { onChange, ...other } = props;
+
+  return (
+    <IMaskInput
+      {...other}
+      mask="00-00-0000"
+      inputRef={ref}
+      onAccept={(value) => onChange({ target: { name: props.name, value } })}
+      overwrite
+    />
+  );
+});
 
 const Input = ({
   label,
-  type = 'text',
   value,
   name,
   required,
-  isTextarea,
+  multiline,
+  date,
   handleChange,
 }) => {
   return (
-    <StyledInput className={value ? 'filled' : ''}>
-      {isTextarea ? (
-        <textarea
-          id={name}
-          type={type}
-          value={value}
-          name={name}
-          rows={3}
-          required={required}
-          onChange={(e) => handleChange(e.target.value, name)}
-        ></textarea>
-      ) : (
-        <input
-          id={name}
-          type={type}
-          value={value}
-          name={name}
-          required={required}
-          onChange={(e) => handleChange(e.target.value, name)}
-        />
-      )}
-
-      <label htmlFor={name}>
-        {label}
-        {required && '*'}
-      </label>
-    </StyledInput>
+    <StyledInput
+      id={name}
+      label={label}
+      name={name}
+      value={value}
+      required={required}
+      fullWidth
+      multiline={multiline}
+      rows={3}
+      InputProps={{
+        inputComponent: date && DateMask,
+      }}
+      variant="standard"
+      onChange={(e) => handleChange(e.target.value, name)}
+    />
   );
 };
 
-const StyledInput = styled.div`
-  position: relative;
-  padding-top: 14px;
+const StyledInput = styled(TextField)`
+  caret-color: var(--accent-primary-color);
+  border-bottom: 1px solid var(--secondary-color-25) !important;
 
-  & > input,
-  & > textarea {
-    width: 100%;
-    font-size: 16px;
-    line-height: 24px;
-    border: none;
-    outline: none;
-    border-bottom: 1px solid var(--secondary-color-25);
-    caret-color: var(--accent-primary-color);
-
-    &:focus {
-      & + label {
-        transform: scale(0.75) translateY(-22px);
-      }
-    }
+  & .MuiInput-root::before,
+  & .MuiInput-root::after {
+    display: none;
   }
-
-  & > input {
-    height: 26px;
-  }
-
-  & > textarea {
-    resize: none;
-  }
-
-  & > label {
-    position: absolute;
-    top: 14px;
-    left: 0;
-    font-size: 16px;
-    line-height: 24px;
+  & .MuiInputLabel-root,
+  & .MuiInputLabel-root.Mui-focused {
     color: var(--secondary-color-50);
-    transition: transform 0.3s;
-    transform-origin: 0 0;
-  }
-
-  &.filled {
-    & > label {
-      transform: scale(0.75) translateY(-22px);
-    }
   }
 `;
 

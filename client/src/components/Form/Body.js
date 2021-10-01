@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Input from '../common/Input';
 import InputFile from '../common/InputFile';
 import Button from '../common/Button';
+import Select from '../common/Select';
 
 const Body = ({
   action,
@@ -34,12 +35,24 @@ const Body = ({
           handleChange={handleChange}
         />
 
-        <Input
+        <Select
+          label="Gender"
+          value={formData.gender}
+          name="gender"
+          options={[
+            { title: 'Male', value: 'male' },
+            { title: 'Female', value: 'female' },
+            { title: 'Do not know', value: 'unknown' },
+          ]}
+          handleChange={handleChange}
+        />
+
+        {/* <Input
           label="Gender"
           value={formData.gender}
           name="gender"
           handleChange={handleChange}
-        />
+        /> */}
 
         <Input
           label="Age"
@@ -62,6 +75,7 @@ const Body = ({
           value={formData.date}
           name="date"
           required
+          date
           handleChange={handleChange}
         />
 
@@ -77,7 +91,7 @@ const Body = ({
           label="Other traits"
           value={formData.traits}
           name="traits"
-          isTextarea
+          multiline
           handleChange={handleChange}
         />
 

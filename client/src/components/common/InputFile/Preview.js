@@ -43,14 +43,20 @@ const StyledPreview = styled.div`
 `;
 
 const Button = styled.button`
+  width: 24px;
+  height: 24px;
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: 4px;
+  left: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 16px;
   line-height: 0;
   color: var(--primary-color);
   border: none;
-  background: transparent;
+  border-radius: 50%;
+  background: var(--secondary-color-50);
   z-index: 2;
   cursor: pointer;
   padding: 0;

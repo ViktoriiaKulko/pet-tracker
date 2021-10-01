@@ -62,7 +62,7 @@ const Subtitle = styled.div`
 
 const ChipGroup = styled.div`
   display: flex;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 
   & > button {
     flex: 1;

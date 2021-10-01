@@ -39,8 +39,8 @@ const Wrapper = styled.button`
 `;
 
 const ImageBox = styled.div`
-  width: 105px;
-  height: 105px;
+  width: 108px;
+  height: 88px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,8 +63,8 @@ const ImageBox = styled.div`
 `;
 
 const Image = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 48px;
+  height: 48px;
 `;
 
 const Title = styled.div`

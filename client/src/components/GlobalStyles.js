@@ -68,6 +68,13 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: var(--neutral-color-200);
 	line-height: 1;
+
+  /* custom styles for MaterialUI Select  */
+  & .MuiPaper-root {
+    border-radius: 0 0 4px 4px !important;
+    box-shadow: 0px 2px 4px var(--secondary-color-25);
+    margin-top: 4px;
+  }
 }
 
 ol, ul {
