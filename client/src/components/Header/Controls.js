@@ -1,102 +1,99 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import Icon from '../common/Icon';
-import SearchIcon from '../icons/SearchIcon';
+import AddIcon from '../icons/AddIcon';
 
-const Controls = () => {
+const Controls = ({ showForm }) => {
+  const { loginWithRedirect } = useAuth0();
+  const { logout } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
+
+  console.log('user', user);
+
   return (
-    <StyledTabs>
-      <Button selected type="button">
-        Found
+    <StyledControls>
+      {isAuthenticated ? (
+        <UserName>{user.given_name}</UserName>
+      ) : (
+        <AuthButton onClick={() => loginWithRedirect()}>Log In</AuthButton>
+      )}
+      <Button type="button" onClick={showForm}>
+        <Icon>
+          <AddIcon />
+        </Icon>
       </Button>
-      <Button type="button">Lost</Button>
 
-      <Search>
-        <Input type="text" placeholder="Filter" />
-        <ButtonFind>
-          <Icon>
-            <SearchIcon />
-          </Icon>
-        </ButtonFind>
-      </Search>
-    </StyledTabs>
+      {/* TODO: create a log out button */}
+      {/* <button onClick={() => logout({ returnTo: window.location.origin })}>
+        Log Out
+      </button> */}
+    </StyledControls>
   );
 };
 
-const StyledTabs = styled.div`
+const StyledControls = styled.div`
   height: 48px;
   display: flex;
+  align-items: center;
   border: 1px solid var(--secondary-color-12);
   border-radius: 100px;
+  padding-left: 16px;
+  padding-right: 12px;
 `;
 
-// TODO: fix selected state animation
-const Button = styled.button`
-  position: relative;
-  width: 160px;
+const AuthButton = styled.button`
   font-size: 14px;
   line-height: 20px;
-  border: none;
+  color: var(--secondary-color-50);
   background-color: transparent;
-  padding: 0 20px;
+  border: none;
+  transition: color 0.3s;
+  cursor: pointer;
+  padding: 0;
 
-  ${(props) =>
-    props.selected &&
-    css`
-      &::after {
-        content: '';
-        position: absolute;
-        top: -1px;
-        bottom: -1px;
-        left: -1px;
-        right: -1px;
-        border: 1px solid var(--secondary-color);
-        border-radius: 100px;
-      }
-    `};
+  &:hover {
+    color: var(--secondary-color);
+  }
 `;
 
-const Search = styled.div`
+const UserName = styled.div`
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--secondary-color-50);
+`;
+
+const Button = styled.button`
   position: relative;
-  display: flex;
-  align-items: center;
-  padding-right: 8px;
-  padding-left: 16px;
+  font-size: 24px;
+  line-height: 0;
+  color: var(--accent-primary-color);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 32px;
+
+  & > div {
+    transition: transform 0.3s;
+  }
+
+  &:hover {
+    & > div {
+      transform: scale(1.1);
+    }
+  }
 
   &::before {
     content: '';
     position: absolute;
-    left: 0;
+    left: -16px;
+    top: 4px;
     width: 1px;
     height: 16px;
     background-color: var(--secondary-color-12);
   }
-`;
-
-const Input = styled.input`
-  width: 92px;
-  height: 40px;
-  font-size: 14px;
-  line-height: 20px;
-  border: none;
-  outline: none;
-  caret-color: var(--accent-primary-color);
-  margin-right: 8px;
-`;
-
-const ButtonFind = styled.button`
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  line-height: 0;
-  color: var(--primary-color);
-  background-color: var(--accent-primary-color);
-  border: none;
-  border-radius: 50%;
 `;
 
 export default Controls;

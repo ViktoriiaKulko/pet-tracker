@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Paper from '../common/Paper';
+import Filters from './Filters';
 import Controls from './Controls';
 
 const Header = ({ showForm }) => {
@@ -9,10 +10,8 @@ const Header = ({ showForm }) => {
     <Paper>
       <Wrapper>
         <Logo>PetTracker</Logo>
-        <Controls />
-        <button type="button" onClick={showForm}>
-          show form
-        </button>
+        <Filters />
+        <Controls showForm={showForm} />
       </Wrapper>
     </Paper>
   );
