@@ -15,15 +15,17 @@ const Controls = ({ showForm }) => {
   return (
     <StyledControls>
       {isAuthenticated ? (
-        <UserName>{user.given_name}</UserName>
+        <>
+          <UserName>{user.given_name}</UserName>
+          <Button type="button" onClick={showForm}>
+            <Icon>
+              <AddIcon />
+            </Icon>
+          </Button>
+        </>
       ) : (
         <AuthButton onClick={() => loginWithRedirect()}>Log In</AuthButton>
       )}
-      <Button type="button" onClick={showForm}>
-        <Icon>
-          <AddIcon />
-        </Icon>
-      </Button>
 
       {/* TODO: create a log out button */}
       {/* <button onClick={() => logout({ returnTo: window.location.origin })}>
@@ -39,8 +41,7 @@ const StyledControls = styled.div`
   align-items: center;
   border: 1px solid var(--secondary-color-12);
   border-radius: 100px;
-  padding-left: 16px;
-  padding-right: 12px;
+  padding: 0 16px;
 `;
 
 const AuthButton = styled.button`
@@ -74,6 +75,7 @@ const Button = styled.button`
   cursor: pointer;
   padding: 0;
   margin-left: 32px;
+  margin-right: -4px;
 
   & > div {
     transition: transform 0.3s;

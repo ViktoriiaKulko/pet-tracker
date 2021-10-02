@@ -105,6 +105,7 @@ table {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin: 8px auto;
+  margin: 0 auto;
+  padding: 8px 0;
 }
 `;
