@@ -10,8 +10,6 @@ const Controls = ({ showForm }) => {
   const { logout } = useAuth0();
   const { user, isAuthenticated } = useAuth0();
 
-  console.log('user', user);
-
   return (
     <StyledControls>
       {isAuthenticated ? (

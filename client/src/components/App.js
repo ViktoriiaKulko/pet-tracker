@@ -59,6 +59,7 @@ const Main = styled.main`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 
 // background for modal windows

@@ -4,11 +4,11 @@ const morgan = require('morgan');
 
 const {
   addPosting,
-  getLostPetsPostings,
-  getFoundPetsPostings,
-  getLostPetsPosting,
+  getLostPets,
+  getFoundPets,
+  getLostPet,
+  getFoundPet,
   getUser,
-  getFoundPetsPosting,
 } = require('./handlers');
 
 require('dotenv').config();
@@ -30,10 +30,10 @@ const app = express()
 
   // endpoints
   .post('/postings', addPosting)
-  .get('/postings/lost', getLostPetsPostings)
-  .get('/postings/found', getFoundPetsPostings)
-  .get('/postings/lost/:_id', getLostPetsPosting)
-  .get('/postings/found/:_id', getFoundPetsPosting)
+  .get('/postings/lost', getLostPets)
+  .get('/postings/found', getFoundPets)
+  .get('/postings/lost/:_id', getLostPet)
+  .get('/postings/found/:_id', getFoundPet)
   .get('/user/:_id', getUser)
 
   // catch all endpoint

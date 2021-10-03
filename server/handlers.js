@@ -90,7 +90,7 @@ const addPosting = async (req, res) => {
   }
 };
 
-const getLostPetsPostings = async (req, res) => {
+const getLostPets = async (req, res) => {
   try {
     const client = req.app.locals.client;
     const db = client.db(DATA_BASE);
@@ -101,7 +101,7 @@ const getLostPetsPostings = async (req, res) => {
   }
 };
 
-const getFoundPetsPostings = async (req, res) => {
+const getFoundPets = async (req, res) => {
   try {
     const client = req.app.locals.client;
     const db = client.db(DATA_BASE);
@@ -115,7 +115,7 @@ const getFoundPetsPostings = async (req, res) => {
   }
 };
 
-const getLostPetsPosting = async (req, res) => {
+const getLostPet = async (req, res) => {
   const { _id } = req.params;
 
   try {
@@ -136,7 +136,7 @@ const getLostPetsPosting = async (req, res) => {
   } catch (error) {}
 };
 
-const getFoundPetsPosting = async (req, res) => {
+const getFoundPet = async (req, res) => {
   const { _id } = req.params;
 
   try {
@@ -182,9 +182,9 @@ const getUser = async (req, res) => {
 
 module.exports = {
   addPosting,
-  getLostPetsPostings,
-  getFoundPetsPostings,
-  getLostPetsPosting,
-  getFoundPetsPosting,
+  getLostPets,
+  getFoundPets,
+  getLostPet,
+  getFoundPet,
   getUser,
 };

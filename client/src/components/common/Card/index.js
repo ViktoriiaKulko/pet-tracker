@@ -1,29 +1,46 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import Paper from '../Paper';
 import Button from '../Button';
 
-const Card = ({ image, name, species, date, address, selected, status }) => {
+const Card = ({
+  _id,
+  image,
+  name,
+  species,
+  date,
+  address,
+  gender,
+  colour,
+  age,
+  traits,
+  selected,
+  status,
+}) => {
   return (
     <Paper>
       {/* mark as selected the posting selected on the map */}
       {/* mark as outlined the posting in the user's profile */}
-      <Wrapper selected={selected} outlined={!!status}>
+      <Wrapper selected={selected} outlined={status} to={`/pet/${_id}`}>
         <FlexContainer>
           <Image style={{ backgroundImage: `url('${image}')` }} />
           <div>
-            <Name>Name</Name>
+            <Name>{name}</Name>
             <FlexContainer>
-              <div>Cat</div>
+              <div>{species}</div>
               <Divider />
-              <div>01.01.2021 at 6pm</div>
+              <div>{date}</div>
             </FlexContainer>
-            <Address>Address</Address>
+            <Address>{address}</Address>
           </div>
         </FlexContainer>
 
-        <Description>Long long description</Description>
+        {/* TODO: create description */}
+        <Description>
+          {age} old {species}. {gender}. {colour}. {traits}.
+        </Description>
 
         {/* show these blocks in the user's profile depends on the posting status */}
         {status === 'active' && (
@@ -42,9 +59,12 @@ const Card = ({ image, name, species, date, address, selected, status }) => {
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled(Link)`
+  display: block;
   font-size: 12px;
   line-height: 16px;
+  color: inherit;
+  text-decoration: none;
   border: 1px solid transparent;
   border-color: ${(props) =>
     props.selected ? 'var(--accent-secondary-color)' : 'transparent'};
@@ -53,6 +73,10 @@ const Wrapper = styled.div`
   border-radius: 16px;
   transition: border-color 0.3s;
   padding: 19px;
+
+  &:hover {
+    border-color: var(--accent-primary-color);
+  }
 `;
 
 const FlexContainer = styled.div`

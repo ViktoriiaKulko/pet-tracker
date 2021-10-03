@@ -1,17 +1,31 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
 import Icon from '../common/Icon';
 import SearchIcon from '../icons/SearchIcon';
 
 const Filters = () => {
+  const [currentFilter, setCurrentFilter] = useState(0);
+
   return (
-    <StyledFilters>
-      <Tab selected type="button">
+    <StyledFilters currentFilter={currentFilter}>
+      <Tab
+        selected={currentFilter === 0}
+        type="button"
+        onClick={() => setCurrentFilter(0)}
+      >
         Found
       </Tab>
-      <Tab type="button">Lost</Tab>
 
+      <Tab
+        selected={currentFilter === 1}
+        type="button"
+        onClick={() => setCurrentFilter(1)}
+      >
+        Lost
+      </Tab>
+
+      {/* TODO: Add animation, decide how to filter */}
       <Search>
         <Input type="text" placeholder="Filter" />
         <Button type="button">
@@ -26,35 +40,43 @@ const Filters = () => {
 
 const StyledFilters = styled.div`
   height: 48px;
+  position: relative;
   display: flex;
   border: 1px solid var(--secondary-color-12);
   border-radius: 100px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 160px;
+    top: -1px;
+    bottom: -1px;
+    left: -1px;
+    transform: ${(props) => `translateX(${props.currentFilter * 160}px)`};
+    border: 1px solid var(--secondary-color);
+    border-radius: 100px;
+    transition: transform 0.3s;
+  }
 `;
 
-// TODO: fix selected state animation
 const Tab = styled.button`
   position: relative;
   width: 160px;
   font-size: 14px;
   line-height: 20px;
+  color: ${(props) =>
+    props.selected ? 'var(--secondary-color)' : 'var(--secondary-color-50)'};
   border: none;
   background-color: transparent;
+  transition: color 0.3s;
+  cursor: pointer;
+  z-index: 2;
+  pointer-events: ${(props) => (props.selected ? 'none' : 'auto')};
   padding: 0 20px;
 
-  ${(props) =>
-    props.selected &&
-    css`
-      &::after {
-        content: '';
-        position: absolute;
-        top: -1px;
-        bottom: -1px;
-        left: -1px;
-        right: -1px;
-        border: 1px solid var(--secondary-color);
-        border-radius: 100px;
-      }
-    `};
+  &:hover {
+    color: var(--secondary-color);
+  }
 `;
 
 const Search = styled.div`
@@ -63,6 +85,7 @@ const Search = styled.div`
   align-items: center;
   padding-right: 8px;
   padding-left: 16px;
+  margin-left: 16px;
 
   &::before {
     content: '';

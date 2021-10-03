@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import Paper from '../common/Paper';
 import Filters from './Filters';
@@ -9,7 +10,7 @@ const Header = ({ showForm }) => {
   return (
     <Paper>
       <Wrapper>
-        <Logo>PetTracker</Logo>
+        <Logo to="/">PetTracker</Logo>
         <Filters />
         <Controls showForm={showForm} />
       </Wrapper>
@@ -24,10 +25,12 @@ const Wrapper = styled.header`
   padding: 16px 32px;
 `;
 
-const Logo = styled.div`
+const Logo = styled(Link)`
   font-size: 24px;
   line-height: 40px;
   font-weight: 700;
+  color: inherit;
+  text-decoration: none;
 `;
 
 export default Header;
