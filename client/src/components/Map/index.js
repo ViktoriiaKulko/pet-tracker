@@ -7,7 +7,7 @@ import hamsterMarker from '../../assets/images/hamster-marker.svg';
 import anotherMarker from '../../assets/images/another-marker.svg';
 
 let map;
-const Map = ({ pets }) => {
+const Map = ({ postings }) => {
   // map uploading
   useEffect(() => {
     function initMap() {

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 
+import { AppProvider } from './state';
+
 import App from './components/App';
 
 ReactDOM.render(
@@ -13,7 +15,9 @@ ReactDOM.render(
       // audience={process.env.REACT_APP_AUTH0_AUDIENCE}
       // scope="read:current_user update:current_user_metadata"
     >
-      <App />
+      <AppProvider>
+        <App />
+      </AppProvider>
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')

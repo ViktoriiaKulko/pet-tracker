@@ -1,18 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+
+import { getFoundPetsAPI, getLostPetsAPI } from '../../api';
+import { AppContext } from '../../state';
 
 import Icon from '../common/Icon';
 import SearchIcon from '../icons/SearchIcon';
 
 const Filters = () => {
   const [currentFilter, setCurrentFilter] = useState(0);
+  const {
+    actions: { setPostingsRequest, setPostingsSuccess, setPostingsError },
+  } = useContext(AppContext);
+
+  // get found pets postings
+  const fetchFoundPets = async () => {
+    setPostingsRequest();
+
+    try {
+      const response = await getFoundPetsAPI();
+
+      if (response.ok) {
+        setPostingsSuccess({ postings: response.data });
+      } else {
+        setPostingsError();
+      }
+    } catch (er) {
+      setPostingsError();
+      console.log(er);
+    }
+  };
+
+  // get lost pets postings
+  const fetchLostPets = async () => {
+    setPostingsRequest();
+
+    try {
+      const response = await getLostPetsAPI();
+
+      if (response.ok) {
+        setPostingsSuccess({ postings: response.data });
+      } else {
+        setPostingsError();
+      }
+    } catch (er) {
+      setPostingsError();
+      console.log(er);
+    }
+  };
+
+  // get found pets postings in the beggining because it's default filter
+  useEffect(() => {
+    fetchFoundPets();
+  }, []);
+
+  const handleFoundClick = () => {
+    setCurrentFilter(0);
+    fetchFoundPets();
+  };
+
+  const handleLostClick = () => {
+    setCurrentFilter(1);
+    fetchLostPets();
+  };
 
   return (
     <StyledFilters currentFilter={currentFilter}>
       <Tab
         selected={currentFilter === 0}
         type="button"
-        onClick={() => setCurrentFilter(0)}
+        onClick={handleFoundClick}
       >
         Found
       </Tab>
@@ -20,7 +77,7 @@ const Filters = () => {
       <Tab
         selected={currentFilter === 1}
         type="button"
-        onClick={() => setCurrentFilter(1)}
+        onClick={handleLostClick}
       >
         Lost
       </Tab>

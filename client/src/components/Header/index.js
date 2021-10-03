@@ -1,17 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Paper from '../common/Paper';
 import Filters from './Filters';
 import Controls from './Controls';
 
 const Header = ({ showForm }) => {
+  const { pathname } = useLocation();
+
   return (
     <Paper>
       <Wrapper>
         <Logo to="/">PetTracker</Logo>
-        <Filters />
+        {/* show filters only on Home page */}
+        {pathname === '/' && <Filters />}
         <Controls showForm={showForm} />
       </Wrapper>
     </Paper>

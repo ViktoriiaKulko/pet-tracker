@@ -1,59 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
-import { getFoundPetsAPI } from '../api';
+import { AppContext } from '../state';
 
 import Filters from './Filters';
 import Card from './common/Card';
 import Map from './Map';
-import Loader from './common/Loader/index';
+import Loader from './common/Loader';
+import Error from './common/Error';
 
 const Home = () => {
-  const [foundPets, setFoundPets] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const {
+    state: { status, postings },
+  } = useContext(AppContext);
 
-  useEffect(() => {
-    async function fetchFoundPets() {
-      try {
-        const response = await getFoundPetsAPI();
-        setLoading(false);
-        if (response.ok) {
-          setFoundPets(response.data);
-        } else {
-          setError(true);
-        }
-      } catch (er) {
-        setLoading(false);
-        setError(true);
-        console.log(er);
-      }
-    }
-    fetchFoundPets();
-  }, []);
+  // wait for getting postings
+  if (status === 'awaiting-response')
+    return (
+      <Wrapper>
+        <Loader />
+      </Wrapper>
+    );
 
-  if (loading) return <Loader />;
-  if (error) return <div>Something happened</div>;
+  // could not get postings
+  if (status === 'error')
+    return (
+      <Wrapper>
+        <Error message="Could not upload postings. Please reload the page" />
+      </Wrapper>
+    );
 
+  // got postings
   return (
     <>
       <Filters />
 
       <Content>
         <Cards>
-          {foundPets.map((pet) => (
+          {postings.map((posting) => (
             <Card
-              key={pet._id}
-              _id={pet._id}
-              image={pet.images[0]}
-              name={pet.name}
-              species={pet.species}
-              date={pet.date}
-              address={pet.address}
-              age={pet.age}
-              gender={pet.gender}
-              traits={pet.traits}
-              colour={pet.colour}
+              key={posting._id}
+              _id={posting._id}
+              image={posting.images[0]}
+              name={posting.name}
+              species={posting.species}
+              date={posting.date}
+              address={posting.address}
+              age={posting.age}
+              gender={posting.gender}
+              traits={posting.traits}
+              colour={posting.colour}
             />
           ))}
         </Cards>
@@ -63,6 +59,10 @@ const Home = () => {
     </>
   );
 };
+
+const Wrapper = styled.div`
+  margin: auto;
+`;
 
 const Content = styled.div`
   flex-grow: 1;
