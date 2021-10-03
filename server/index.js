@@ -1,5 +1,23 @@
 const express = require('express');
+const { MongoClient } = require('mongodb');
 const morgan = require('morgan');
+
+const {
+  addPosting,
+  getLostPetsPostings,
+  getFoundPetsPostings,
+  getLostPetsPosting,
+  getUser,
+  getFoundPetsPosting,
+} = require('./handlers');
+
+require('dotenv').config();
+const { MONGO_URI } = process.env;
+
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
 
 const PORT = 8000;
 const app = express()
@@ -11,9 +29,12 @@ const app = express()
   .use(express.static('public'))
 
   // endpoints
-  .get('/hello', (req, res) => {
-    res.send('Hello world');
-  })
+  .post('/postings', addPosting)
+  .get('/postings/lost', getLostPetsPostings)
+  .get('/postings/found', getFoundPetsPostings)
+  .get('/postings/lost/:_id', getLostPetsPosting)
+  .get('/postings/found/:_id', getFoundPetsPosting)
+  .get('/user/:_id', getUser)
 
   // catch all endpoint
   .get('*', (req, res) => {
@@ -23,6 +44,18 @@ const app = express()
     });
   });
 
-app.listen(PORT, () => {
-  console.log(`Server is listening on port: ${PORT}`);
-});
+const setup = async () => {
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+  app.locals.client = client;
+};
+
+setup()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is listening on port: ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log('Error: ', err);
+  });
