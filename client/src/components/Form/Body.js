@@ -78,6 +78,7 @@ const Body = ({
           value={formData.date.value}
           name="date"
           required
+          error={formData.date.error}
           helperText={formData.date.helperText}
           handleChange={handleChange}
         />

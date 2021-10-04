@@ -11,12 +11,12 @@ export const speciesList = [
 ];
 
 export const initialFormData = {
-  species: { value: '' },
-  name: { value: '' },
-  gender: { value: '' },
-  age: { value: '' },
-  colour: { value: '' },
-  traits: { value: '' },
-  date: { value: null },
-  address: { value: '' },
+  species: { value: '', error: false, helperText: '' },
+  name: { value: '', error: false, helperText: '' },
+  gender: { value: '', error: false, helperText: '' },
+  age: { value: '', error: false, helperText: '' },
+  colour: { value: '', error: false, helperText: '' },
+  traits: { value: '', error: false, helperText: '' },
+  date: { value: null, error: false, helperText: '' },
+  address: { value: '', error: false, helperText: '' },
 };

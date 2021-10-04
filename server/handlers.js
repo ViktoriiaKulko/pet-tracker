@@ -12,29 +12,24 @@ const {
 // TODO: add date validation, fix required fields validation,
 //       catch errors, don't add action to post data
 const addPosting = async (req, res) => {
-  const {
-    userName,
-    userEmail,
-    action,
-    species,
-    name,
-    gender,
-    age,
-    colour,
-    traits,
-    date,
-    address,
-    images,
-  } = req.body;
+  const { userName, userEmail, action } = req.body;
 
   // validate required fields
-  if (!date || !address || !images.length)
+  const requiredFields = ['date', 'address', 'species', 'images'];
+  const emptyRequiredFields = requiredFields.filter(
+    (field) => !req.body[field]
+  );
+  const message = `Fields are required: ${emptyRequiredFields.join(', ')}.`;
+
+  if (emptyRequiredFields.length) {
     sendResponse({
       res,
       status: 400,
-      data: req.body,
-      message: 'Fields address, date and images are required.',
+      data: emptyRequiredFields,
+      message,
     });
+    return;
+  }
 
   try {
     const client = req.app.locals.client;

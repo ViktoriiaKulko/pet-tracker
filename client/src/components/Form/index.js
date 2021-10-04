@@ -44,7 +44,9 @@ const Form = ({ visibleForm, setVisibleForm }) => {
   };
 
   const uploadImagesToCloudinary = async () => {
-    let imageUrls = [];
+    let imageUrls = null;
+    const errorMessage =
+      'Could not upload your images. Please, try again or reload the page';
 
     await Promise.all(
       images.map(async (elem) => {
@@ -60,17 +62,14 @@ const Form = ({ visibleForm, setVisibleForm }) => {
 
           if (res.ok) {
             const file = await res.json();
+            imageUrls = [];
             imageUrls.push(file.secure_url);
           } else {
-            setErrorMessage(
-              'Could not upload your images. Please, try again or reload the page'
-            );
+            setErrorMessage(errorMessage);
             setLoading(false);
           }
         } catch (err) {
-          setErrorMessage(
-            'Could not upload your images. Please, try again or reload the page'
-          );
+          setErrorMessage(errorMessage);
           setLoading(false);
           console.log(err);
         }
@@ -84,45 +83,68 @@ const Form = ({ visibleForm, setVisibleForm }) => {
     e.preventDefault();
     setLoading(true);
 
-    let imageUrls = await uploadImagesToCloudinary();
+    const imageUrls = await uploadImagesToCloudinary();
 
-    // send data if the images were uploaded
-    if (imageUrls.length) {
-      try {
-        const response = await addPostingAPI({
-          userName: user.name,
-          userEmail: user.email,
-          action,
-          species,
-          name: formData.name.value,
-          gender: formData.gender.value,
-          age: formData.age.value,
-          colour: formData.colour.value,
-          traits: formData.traits.value,
-          date: formData.date.value,
-          address: formData.address.value,
-          images: imageUrls,
-        });
-        if (response.ok) {
-          setSuccess(true);
+    try {
+      const response = await addPostingAPI({
+        userName: user.name,
+        userEmail: user.email,
+        action,
+        species: species === 'another' ? formData.species.value : species,
+        name: formData.name.value,
+        gender: formData.gender.value,
+        age: formData.age.value,
+        colour: formData.colour.value,
+        traits: formData.traits.value,
+        date: formData.date.value,
+        address: formData.address.value,
+        images: imageUrls,
+      });
 
-          setTimeout(() => {
-            setVisibleForm(false);
-            cleanUp();
-          }, 1500);
-        } else {
-          setErrorMessage(
-            'Something went wrong. Please, try again or reload the page'
-          );
-          setLoading(false);
-        }
-      } catch (err) {
+      // clean errors
+      Object.keys(formData).forEach((key) => {
+        formData[key].error = false;
+        formData[key].helperText = '';
+      });
+      setErrorMessage('');
+
+      if (response.ok) {
+        setSuccess(true);
+        setTimeout(() => {
+          setVisibleForm(false);
+          cleanUp();
+        }, 1500);
+      } else {
         setLoading(false);
-        setErrorMessage(
-          'Something went wrong. Please, try again or reload the page'
+        // choose only form fields
+        const requiredFields = response.data.filter(
+          (field) => field !== 'images'
         );
-        console.log(err);
+
+        if (requiredFields.length) {
+          // highlight missed required fields
+          const errorFields = {};
+          requiredFields.map((field) => {
+            const errorField = {
+              ...formData[field],
+              error: true,
+              helperText: 'Field is required',
+            };
+            errorFields[field] = { ...errorField };
+          });
+
+          setFormData({ ...formData, ...errorFields });
+          setErrorMessage('Please, fill in the required fields');
+        } else {
+          setErrorMessage('Please, upload at least one photo');
+        }
       }
+    } catch (err) {
+      setLoading(false);
+      setErrorMessage(
+        'Something went wrong. Please, try again or reload the page'
+      );
+      console.log(err);
     }
   };
 

@@ -20,13 +20,17 @@ const DatePicker = ({
         label={label}
         value={value}
         name={name}
-        required={required}
         disableFuture={true}
         onChange={(newValue) => {
           handleChange(newValue, name);
         }}
         renderInput={(params) => (
-          <StyledTextField {...params} error={error} helperText={helperText} />
+          <StyledTextField
+            {...params}
+            required={required}
+            error={error}
+            helperText={helperText}
+          />
         )}
       />
     </LocalizationProvider>

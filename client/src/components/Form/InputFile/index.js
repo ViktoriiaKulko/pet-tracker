@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import Preview from './Preview';
@@ -11,8 +11,6 @@ const InputFile = ({
   setImagePreviews,
   maxFiles = 5,
 }) => {
-  const [error, setError] = useState(false);
-
   const uploadImages = (e) => {
     const files = e.target.files;
     const tempImagePreviews = imagePreviews;
@@ -23,9 +21,6 @@ const InputFile = ({
         const url = URL.createObjectURL(file);
         tempImagePreviews.push(url);
         tempImages.push(file);
-      } else {
-        setError(true);
-        break;
       }
     }
 
@@ -60,7 +55,6 @@ const InputFile = ({
           </>
         )}
 
-        {/* visible if a user selected less images than maxFiles */}
         {imagePreviews.length < maxFiles && (
           <Input
             maxFiles={maxFiles}
@@ -69,8 +63,6 @@ const InputFile = ({
           />
         )}
       </Wrapper>
-      {/* visible if a user selected more images than maxFiles */}
-      {error && <Message>Max. files {maxFiles}</Message>}
     </div>
   );
 };
@@ -78,14 +70,6 @@ const InputFile = ({
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const Message = styled.div`
-  font-size: 12px;
-  line-height: 16px;
-  text-align: center;
-  color: var(--error-color);
-  margin-top: 8px;
 `;
 
 export default InputFile;
