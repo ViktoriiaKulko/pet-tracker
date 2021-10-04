@@ -3,7 +3,7 @@ import cat from './assets/images/cat.svg';
 import hamster from './assets/images/hamster.svg';
 import another from './assets/images/all-pets.svg';
 
-export const species = [
+export const speciesList = [
   { id: 'dog', title: 'Dog', image: dog },
   { id: 'cat', title: 'Cat', image: cat },
   { id: 'hamster', title: 'Hamster', image: hamster },

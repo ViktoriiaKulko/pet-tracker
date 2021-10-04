@@ -89,7 +89,7 @@ const Image = styled.div`
   height: 80px;
   background-position: center;
   background-repeat: no-repeat;
-  background-repeat: contain;
+  background-size: contain;
   border-radius: 4px;
   margin-right: 20px;
 `;

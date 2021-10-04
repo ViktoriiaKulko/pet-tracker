@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Icon from '../Icon';
+import Icon from '../../common/Icon';
 import AddIcon from '../../icons/AddIcon';
 
 const Input = ({ maxFiles, imagePreviews, uploadImages }) => {

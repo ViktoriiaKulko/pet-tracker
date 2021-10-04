@@ -12,12 +12,8 @@ import Form from './Form';
 import Loader from './common/Loader';
 
 const App = () => {
-  const [visibleForm, setVisibleForm] = useState(false);
+  const [visibleForm, setVisibleForm] = useState(null);
   const { isLoading } = useAuth0();
-
-  const showForm = () => {
-    setVisibleForm(true);
-  };
 
   // wait for auth0 user data
   // if (isLoading) return <Loader />;
@@ -25,7 +21,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <GlobalStyles />
-      <Header showForm={showForm} />
+      <Header setVisibleForm={setVisibleForm} />
 
       <Main>
         <Switch>
@@ -45,12 +41,8 @@ const App = () => {
         </Switch>
       </Main>
 
-      {visibleForm && (
-        <>
-          <Form />
-          <Overlay />
-        </>
-      )}
+      {visibleForm && <Overlay />}
+      <Form visibleForm={visibleForm} setVisibleForm={setVisibleForm} />
     </BrowserRouter>
   );
 };

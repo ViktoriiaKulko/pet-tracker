@@ -6,7 +6,7 @@ import Paper from '../common/Paper';
 import Filters from './Filters';
 import Controls from './Controls';
 
-const Header = ({ showForm }) => {
+const Header = ({ setVisibleForm }) => {
   const { pathname } = useLocation();
 
   return (
@@ -15,7 +15,7 @@ const Header = ({ showForm }) => {
         <Logo to="/">PetTracker</Logo>
         {/* show filters only on Home page */}
         {pathname === '/' && <Filters />}
-        <Controls showForm={showForm} />
+        <Controls setVisibleForm={setVisibleForm} />
       </Wrapper>
     </Paper>
   );

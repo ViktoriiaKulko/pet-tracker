@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { species } from '../../settings';
+import { speciesList } from '../../settings';
 
 import Title from '../common/Title';
 import { Chip } from '../common/Chip';
 import Species from './Species';
 
-const ModalHeader = ({ action, setAction, pet, setPet }) => {
+const Header = ({ action, setAction, species, setSpecies }) => {
   return (
-    <Header>
+    <StyledHeader>
       <Title>Information about the pet</Title>
       <Subtitle>Please provide as much detail as possible</Subtitle>
 
@@ -32,21 +32,21 @@ const ModalHeader = ({ action, setAction, pet, setPet }) => {
 
       {/* select the pet species a user lost or found */}
       <SpeciesGroup>
-        {species.map((item) => (
+        {speciesList.map((item) => (
           <Species
             key={item.id}
             title={item.title}
             image={item.image}
-            selected={pet === item.id}
-            handleClick={() => setPet(item.id)}
+            selected={species === item.id}
+            handleClick={() => setSpecies(item.id)}
           />
         ))}
       </SpeciesGroup>
-    </Header>
+    </StyledHeader>
   );
 };
 
-const Header = styled.div`
+const StyledHeader = styled.div`
   background-color: var(--neutral-color-200);
   padding: 40px;
 `;
@@ -79,4 +79,4 @@ const SpeciesGroup = styled.div`
   justify-content: space-between;
 `;
 
-export default ModalHeader;
+export default Header;

@@ -5,7 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Icon from '../common/Icon';
 import AddIcon from '../icons/AddIcon';
 
-const Controls = ({ showForm }) => {
+const Controls = ({ setVisibleForm }) => {
   const { loginWithRedirect } = useAuth0();
   const { logout } = useAuth0();
   const { user, isAuthenticated } = useAuth0();
@@ -15,7 +15,7 @@ const Controls = ({ showForm }) => {
       {isAuthenticated ? (
         <>
           <UserName>{user.given_name}</UserName>
-          <Button type="button" onClick={showForm}>
+          <Button type="button" onClick={() => setVisibleForm(true)}>
             <Icon>
               <AddIcon />
             </Icon>

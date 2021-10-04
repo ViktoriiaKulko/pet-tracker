@@ -2,25 +2,30 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Input from '../common/Input';
-import InputFile from '../common/InputFile';
-import Button from '../common/Button';
+import InputFile from './InputFile';
 import Select from '../common/Select';
+import Button from '../common/Button';
+import Status from '../common/Status';
 
 const Body = ({
   action,
-  unknownPet,
+  unknownSpecies,
   formData,
   handleChange,
   images,
   setImages,
-  handleSubmit,
+  imagePreviews,
+  setImagePreviews,
+  loading,
+  success,
   errorMessage,
+  handleSubmit,
 }) => {
   return (
     <Wrapper>
       <Fields>
         {/* if the pet species isn't in the species list */}
-        {unknownPet && (
+        {unknownSpecies && (
           <Input
             label="Species"
             value={formData.species.value}
@@ -96,12 +101,21 @@ const Body = ({
           handleChange={handleChange}
         />
 
-        <InputFile images={images} setImages={setImages} />
+        <InputFile
+          images={images}
+          setImages={setImages}
+          imagePreviews={imagePreviews}
+          setImagePreviews={setImagePreviews}
+        />
       </Fields>
 
-      <Button type="submit" handleClick={handleSubmit}>
-        Submit
-      </Button>
+      {success ? (
+        <Status>Your posting was added</Status>
+      ) : (
+        <Button type="submit" loading={loading} handleClick={handleSubmit}>
+          Send posting
+        </Button>
+      )}
 
       {errorMessage && <Message>{errorMessage}</Message>}
     </Wrapper>

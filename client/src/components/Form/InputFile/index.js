@@ -4,10 +4,13 @@ import styled from 'styled-components';
 import Preview from './Preview';
 import Input from './Input';
 
-const MAX_FILES = 5;
-
-const InputFile = ({ images, setImages }) => {
-  const [imagePreviews, setImagePreviews] = useState([]);
+const InputFile = ({
+  images,
+  setImages,
+  imagePreviews,
+  setImagePreviews,
+  maxFiles = 5,
+}) => {
   const [error, setError] = useState(false);
 
   const uploadImages = (e) => {
@@ -16,7 +19,7 @@ const InputFile = ({ images, setImages }) => {
     const tempImages = images;
 
     for (let file of [...files]) {
-      if (tempImagePreviews.length < MAX_FILES) {
+      if (tempImagePreviews.length < maxFiles) {
         const url = URL.createObjectURL(file);
         tempImagePreviews.push(url);
         tempImages.push(file);
@@ -57,17 +60,17 @@ const InputFile = ({ images, setImages }) => {
           </>
         )}
 
-        {/* visible if a user selected less images than MAX_FILES */}
-        {imagePreviews.length < MAX_FILES && (
+        {/* visible if a user selected less images than maxFiles */}
+        {imagePreviews.length < maxFiles && (
           <Input
-            maxFiles={MAX_FILES}
+            maxFiles={maxFiles}
             imagePreviews={imagePreviews}
             uploadImages={uploadImages}
           />
         )}
       </Wrapper>
-      {/* visible if a user selected more images than MAX_FILES */}
-      {error && <Message>Max. files {MAX_FILES}</Message>}
+      {/* visible if a user selected more images than maxFiles */}
+      {error && <Message>Max. files {maxFiles}</Message>}
     </div>
   );
 };
@@ -81,7 +84,7 @@ const Message = styled.div`
   font-size: 12px;
   line-height: 16px;
   text-align: center;
-  color: var(--accent-secondary-color);
+  color: var(--error-color);
   margin-top: 8px;
 `;
 
