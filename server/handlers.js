@@ -13,7 +13,8 @@ const {
 //       catch errors, don't add action to post data
 const addPosting = async (req, res) => {
   const {
-    userId,
+    userName,
+    userEmail,
     action,
     species,
     name,
@@ -57,7 +58,7 @@ const addPosting = async (req, res) => {
     // check if the user exists
     const currentUser = await db
       .collection(USERS_COLLECTION)
-      .findOne({ _id: userId });
+      .findOne({ email: userEmail });
 
     if (currentUser) {
       // update the user's info
@@ -68,13 +69,14 @@ const addPosting = async (req, res) => {
 
       await db
         .collection(USERS_COLLECTION)
-        .updateOne({ _id: userId }, { $set: { ...updatedData } });
+        .updateOne({ email: userEmail }, { $set: { ...updatedData } });
     } else {
       // add a new user
-      const userData =
+      let userData = { name: userName, email: userEmail };
+      userData =
         action === 'found'
-          ? { _id: userId, lostPets: [], foundPets: [_id] }
-          : { _id: userId, lostPets: [_id], foundPets: [] };
+          ? { ...userData, lostPets: [], foundPets: [_id] }
+          : { ...userData, lostPets: [_id], foundPets: [] };
 
       await db.collection(USERS_COLLECTION).insertOne({ ...userData });
     }

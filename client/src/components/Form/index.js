@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import { initialFormData } from '../../settings';
 import { addPostingAPI } from '../../api';
+import { AppContext } from '../../state';
 
 import Header from './Header';
 import Body from './Body';
@@ -21,6 +22,10 @@ const Form = ({ visibleForm, setVisibleForm }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  const {
+    state: { user },
+  } = useContext(AppContext);
 
   // handle inputs changes
   const handleChange = (value, name) => {
@@ -85,6 +90,8 @@ const Form = ({ visibleForm, setVisibleForm }) => {
     if (imageUrls.length) {
       try {
         const response = await addPostingAPI({
+          userName: user.name,
+          userEmail: user.email,
           action,
           species,
           name: formData.name.value,

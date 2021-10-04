@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
+
+import { AppContext } from '../../state';
 
 import Icon from '../common/Icon';
 import AddIcon from '../icons/AddIcon';
 
 const Controls = ({ setVisibleForm }) => {
-  const { loginWithRedirect } = useAuth0();
-  const { logout } = useAuth0();
-  const { user, isAuthenticated } = useAuth0();
+  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+  const {
+    actions: { setUser },
+  } = useContext(AppContext);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setUser({
+        user: {
+          name: user.name,
+          email: user.email,
+        },
+      });
+    } else {
+      setUser({ user: null });
+    }
+  }, [isAuthenticated]);
 
   return (
     <StyledControls>
