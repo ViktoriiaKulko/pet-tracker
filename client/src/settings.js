@@ -17,6 +17,6 @@ export const initialFormData = {
   age: { value: '' },
   colour: { value: '' },
   traits: { value: '' },
-  date: { value: '' },
+  date: { value: null },
   address: { value: '' },
 };

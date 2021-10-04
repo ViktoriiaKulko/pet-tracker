@@ -1,22 +1,6 @@
 import React from 'react';
-import { IMaskInput } from 'react-imask';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
-
-// mask for date inputs
-const DateMask = React.forwardRef((props, ref) => {
-  const { onChange, ...other } = props;
-
-  return (
-    <IMaskInput
-      {...other}
-      mask="00-00-0000"
-      inputRef={ref}
-      onAccept={(value) => onChange({ target: { name: props.name, value } })}
-      overwrite
-    />
-  );
-});
 
 const Input = ({
   label,
@@ -26,7 +10,6 @@ const Input = ({
   error,
   helperText,
   multiline,
-  date,
   handleChange,
 }) => {
   return (
@@ -41,9 +24,6 @@ const Input = ({
       error={error}
       multiline={multiline}
       rows={3}
-      InputProps={{
-        inputComponent: date && DateMask,
-      }}
       variant="standard"
       onChange={(e) => handleChange(e.target.value, name)}
     />

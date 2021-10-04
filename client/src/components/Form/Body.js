@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Input from '../common/Input';
-import InputFile from './InputFile';
+import DatePicker from '../common/DatePicker';
 import Select from '../common/Select';
+import InputFile from './InputFile';
 import Button from '../common/Button';
 import Status from '../common/Status';
 
@@ -70,16 +71,14 @@ const Body = ({
           handleChange={handleChange}
         />
 
-        <Input
+        <DatePicker
           label={`When did you ${
             action === 'found' ? 'find' : 'lose'
           } the pet?`}
           value={formData.date.value}
           name="date"
           required
-          error={formData.date.error}
           helperText={formData.date.helperText}
-          date
           handleChange={handleChange}
         />
 
