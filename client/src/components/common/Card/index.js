@@ -10,6 +10,7 @@ import Button from '../Button';
 
 const Card = ({
   _id,
+  action,
   image,
   name,
   species,
@@ -28,7 +29,11 @@ const Card = ({
     <Paper>
       {/* mark as selected the posting selected on the map */}
       {/* mark as outlined the posting in the user's profile */}
-      <Wrapper selected={selected} outlined={status} to={`/pet/${_id}`}>
+      <Wrapper
+        selected={selected}
+        outlined={status}
+        to={`/pet/${_id}/${action}`}
+      >
         <FlexContainer>
           <Image style={{ backgroundImage: `url('${image}')` }} />
           <div>
@@ -101,7 +106,7 @@ const Image = styled.div`
   height: 80px;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   border-radius: 4px;
   margin-right: 20px;
 `;

@@ -112,13 +112,15 @@ const getFoundPets = async (req, res) => {
   }
 };
 
-const getLostPet = async (req, res) => {
-  const { _id } = req.params;
+const getPet = async (req, res) => {
+  const { _id, action } = req.params;
 
   try {
     const client = req.app.locals.client;
     const db = client.db(DATA_BASE);
-    const pet = await db.collection(LOST_PETS_COLLECTION).findOne({ _id });
+    const collection =
+      action === 'found' ? FOUND_PETS_COLLECTION : LOST_PETS_COLLECTION;
+    const pet = await db.collection(collection).findOne({ _id });
 
     if (pet) {
       sendResponse({ res, status: 200, data: pet });
@@ -127,31 +129,12 @@ const getLostPet = async (req, res) => {
         res,
         status: 404,
         data: _id,
-        message: 'The pet not found',
+        message: 'The pet not found.',
       });
     }
-  } catch (error) {}
-};
-
-const getFoundPet = async (req, res) => {
-  const { _id } = req.params;
-
-  try {
-    const client = req.app.locals.client;
-    const db = client.db(DATA_BASE);
-    const pet = await db.collection(FOUND_PETS_COLLECTION).findOne({ _id });
-
-    if (pet) {
-      sendResponse({ res, status: 200, data: pet });
-    } else {
-      sendResponse({
-        res,
-        status: 404,
-        data: _id,
-        message: 'The pet not found',
-      });
-    }
-  } catch (error) {}
+  } catch (error) {
+    sendResponse({ res, status: 500, message: err.message });
+  }
 };
 
 const getUser = async (req, res) => {
@@ -169,7 +152,7 @@ const getUser = async (req, res) => {
         res,
         status: 404,
         data: _id,
-        message: 'The user not found',
+        message: 'The user not found.',
       });
     }
   } catch (error) {
@@ -181,7 +164,6 @@ module.exports = {
   addPosting,
   getLostPets,
   getFoundPets,
-  getLostPet,
-  getFoundPet,
+  getPet,
   getUser,
 };

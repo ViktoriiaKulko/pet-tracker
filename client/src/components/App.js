@@ -42,7 +42,7 @@ const App = () => {
             <Profile />
           </Route>
 
-          <Route path="/pet/:id">
+          <Route path="/pet/:_id/:action">
             <Pet />
           </Route>
 

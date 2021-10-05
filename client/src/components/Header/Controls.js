@@ -17,7 +17,7 @@ const Controls = ({ setVisibleForm }) => {
     if (isAuthenticated) {
       setUser({
         user: {
-          name: user.name,
+          name: user.given_name,
           email: user.email,
         },
       });

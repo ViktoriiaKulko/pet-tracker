@@ -6,8 +6,7 @@ const {
   addPosting,
   getLostPets,
   getFoundPets,
-  getLostPet,
-  getFoundPet,
+  getPet,
   getUser,
 } = require('./handlers');
 
@@ -32,8 +31,7 @@ const app = express()
   .post('/postings', addPosting)
   .get('/postings/lost', getLostPets)
   .get('/postings/found', getFoundPets)
-  .get('/postings/lost/:_id', getLostPet)
-  .get('/postings/found/:_id', getFoundPet)
+  .get('/postings/:_id/:action', getPet)
   .get('/user/:_id', getUser)
 
   // catch all endpoint

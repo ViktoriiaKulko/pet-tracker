@@ -45,7 +45,7 @@ const Form = ({ visibleForm, setVisibleForm }) => {
   };
 
   const uploadImagesToCloudinary = async () => {
-    let imageUrls = null;
+    let imageUrls = [];
     const errorMessage =
       'Could not upload your images. Please, try again or reload the page';
 
@@ -63,7 +63,6 @@ const Form = ({ visibleForm, setVisibleForm }) => {
 
           if (res.ok) {
             const file = await res.json();
-            imageUrls = [];
             imageUrls.push(file.secure_url);
           } else {
             setErrorMessage(errorMessage);

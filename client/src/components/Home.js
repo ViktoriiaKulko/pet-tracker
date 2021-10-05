@@ -43,6 +43,7 @@ const Home = () => {
                 <Card
                   key={posting._id}
                   _id={posting._id}
+                  action={posting.action}
                   image={posting.images[0]}
                   name={posting.name}
                   species={posting.species}
