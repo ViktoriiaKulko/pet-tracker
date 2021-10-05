@@ -60,7 +60,14 @@ const Home = () => {
           )}
         </Cards>
 
-        <Map />
+        <Map
+          postings={postings.map((posting) => {
+            return {
+              species: posting.species,
+              address: posting.address,
+            };
+          })}
+        />
       </Content>
     </>
   );
