@@ -13,3 +13,6 @@ export const getPositionFromAddress = async (address) => {
     console.log(err.message);
   }
 };
+
+export const upperCaseFirstLetter = (str) =>
+  str[0].toUpperCase() + str.slice(1);

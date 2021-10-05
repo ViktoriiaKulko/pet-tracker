@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { format, parseISO } from 'date-fns';
+
+import { upperCaseFirstLetter } from '../../../utils';
 
 import Paper from '../Paper';
 import Button from '../Button';
@@ -19,6 +22,8 @@ const Card = ({
   selected,
   status,
 }) => {
+  const visibleDescription = age || gender || colour || traits;
+
   return (
     <Paper>
       {/* mark as selected the posting selected on the map */}
@@ -27,20 +32,27 @@ const Card = ({
         <FlexContainer>
           <Image style={{ backgroundImage: `url('${image}')` }} />
           <div>
-            <Name>{name}</Name>
+            <Name>{name ? name : 'Unknown'}</Name>
             <FlexContainer>
-              <div>{species}</div>
+              <div>{upperCaseFirstLetter(species)}</div>
               <Divider />
-              <div>{date}</div>
+              <div>
+                {format(parseISO(date), 'dd.MM.yyyy')} at{' '}
+                {format(parseISO(date), 'HH:mm')}
+              </div>
             </FlexContainer>
             <Address>{address}</Address>
           </div>
         </FlexContainer>
 
-        {/* TODO: create description */}
-        <Description>
-          {age} old {species}. {gender}. {colour}. {traits}.
-        </Description>
+        {visibleDescription && (
+          <Description>
+            {age ? `${age}  old ${species}. ` : ''}
+            {gender ? `${upperCaseFirstLetter(gender)}. ` : ''}
+            {colour ? `${upperCaseFirstLetter(colour)} colour. ` : ''}
+            {traits ? `${upperCaseFirstLetter(traits)}.` : ''}
+          </Description>
+        )}
 
         {/* show these blocks in the user's profile depends on the posting status */}
         {status === 'active' && (
