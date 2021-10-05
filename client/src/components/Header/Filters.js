@@ -1,83 +1,36 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
-import { getFoundPetsAPI, getLostPetsAPI } from '../../api';
 import { AppContext } from '../../state';
 
 import Icon from '../common/Icon';
 import SearchIcon from '../icons/SearchIcon';
 
 const Filters = () => {
-  const [currentFilter, setCurrentFilter] = useState(0);
   const {
-    actions: { setPostingsRequest, setPostingsSuccess, setPostingsError },
+    state: { currentFilter },
+    thunks: { getFoundPets, getLostPets },
   } = useContext(AppContext);
-
-  // get found pets postings
-  const fetchFoundPets = async () => {
-    setPostingsRequest();
-
-    try {
-      const response = await getFoundPetsAPI();
-
-      if (response.ok) {
-        setPostingsSuccess({ postings: response.data });
-      } else {
-        setPostingsError();
-      }
-    } catch (er) {
-      setPostingsError();
-      console.log(er);
-    }
-  };
-
-  // get lost pets postings
-  const fetchLostPets = async () => {
-    setPostingsRequest();
-
-    try {
-      const response = await getLostPetsAPI();
-
-      if (response.ok) {
-        setPostingsSuccess({ postings: response.data });
-      } else {
-        setPostingsError();
-      }
-    } catch (er) {
-      setPostingsError();
-      console.log(er);
-    }
-  };
 
   // get found pets postings in the beggining because it's default filter
   useEffect(() => {
-    fetchFoundPets();
+    getFoundPets();
   }, []);
 
-  const handleFoundClick = () => {
-    setCurrentFilter(0);
-    fetchFoundPets();
-  };
-
-  const handleLostClick = () => {
-    setCurrentFilter(1);
-    fetchLostPets();
-  };
-
   return (
-    <StyledFilters currentFilter={currentFilter}>
+    <StyledFilters currentFilter={currentFilter === 'found' ? 0 : 1}>
       <Tab
-        selected={currentFilter === 0}
+        selected={currentFilter === 'found'}
         type="button"
-        onClick={handleFoundClick}
+        onClick={getFoundPets}
       >
         Found
       </Tab>
 
       <Tab
-        selected={currentFilter === 1}
+        selected={currentFilter === 'lost'}
         type="button"
-        onClick={handleLostClick}
+        onClick={getLostPets}
       >
         Lost
       </Tab>

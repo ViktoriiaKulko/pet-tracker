@@ -1,8 +1,10 @@
 import React, { createContext, useReducer } from 'react';
 import produce from 'immer';
+import { getFoundPetsAPI, getLostPetsAPI } from '../api';
 
 const initialState = {
   status: 'idle',
+  currentFilter: 'found',
   postings: [],
   user: null,
 };
@@ -18,6 +20,7 @@ const reducer = produce((draft, action) => {
     case 'SET-POSTINGS-SUCCESS': {
       draft.postings = action.postings;
       draft.status = 'success';
+      draft.currentFilter = action.currentFilter;
       break;
     }
     case 'SET-POSTINGS-ERROR': {
@@ -36,11 +39,47 @@ const reducer = produce((draft, action) => {
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // actions
   const setPostingsRequest = () => dispatch({ type: 'SET-POSTINGS-REQUEST' });
   const setPostingsSuccess = (data) =>
     dispatch({ type: 'SET-POSTINGS-SUCCESS', ...data });
   const setPostingsError = () => dispatch({ type: 'SET-POSTINGS-ERROR' });
   const setUser = (data) => dispatch({ type: 'SET-USER', ...data });
+
+  // thunks
+  const getFoundPets = async () => {
+    setPostingsRequest();
+
+    try {
+      const response = await getFoundPetsAPI();
+
+      if (response.ok) {
+        setPostingsSuccess({ postings: response.data, currentFilter: 'found' });
+      } else {
+        setPostingsError();
+      }
+    } catch (er) {
+      setPostingsError();
+      console.log(er);
+    }
+  };
+
+  const getLostPets = async () => {
+    setPostingsRequest();
+
+    try {
+      const response = await getLostPetsAPI();
+
+      if (response.ok) {
+        setPostingsSuccess({ postings: response.data, currentFilter: 'lost' });
+      } else {
+        setPostingsError();
+      }
+    } catch (er) {
+      setPostingsError();
+      console.log(er);
+    }
+  };
 
   return (
     <AppContext.Provider
@@ -52,6 +91,7 @@ export const AppProvider = ({ children }) => {
           setPostingsError,
           setUser,
         },
+        thunks: { getFoundPets, getLostPets },
       }}
     >
       {children}

@@ -25,6 +25,7 @@ const Form = ({ visibleForm, setVisibleForm }) => {
 
   const {
     state: { user },
+    thunks: { getFoundPets, getLostPets },
   } = useContext(AppContext);
 
   // handle inputs changes
@@ -113,7 +114,13 @@ const Form = ({ visibleForm, setVisibleForm }) => {
         setTimeout(() => {
           setVisibleForm(false);
           cleanUp();
-        }, 1500);
+        }, 1000);
+        // update list of pets
+        if (action === 'found') {
+          getFoundPets();
+        } else {
+          getLostPets();
+        }
       } else {
         setLoading(false);
         // choose only form fields
