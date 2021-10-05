@@ -1,13 +1,16 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-import image from '../../../assets/images/dog.svg';
+import dog from '../../../assets/images/dog.svg';
+import cat from '../../../assets/images/cat.svg';
 
-const Loader = () => {
+const images = { dog, cat };
+
+const Loader = ({ image = 'dog' }) => {
   return (
     <StyledLoader>
-      <Bar></Bar>
-      <Image src={image} />
+      <Bar />
+      <Image src={images[image]} />
     </StyledLoader>
   );
 };

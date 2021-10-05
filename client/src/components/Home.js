@@ -18,7 +18,7 @@ const Home = () => {
   if (status === 'awaiting-response')
     return (
       <Wrapper>
-        <Loader />
+        <Loader image="cat" />
       </Wrapper>
     );
 
@@ -37,21 +37,27 @@ const Home = () => {
 
       <Content>
         <Cards>
-          {postings.map((posting) => (
-            <Card
-              key={posting._id}
-              _id={posting._id}
-              image={posting.images[0]}
-              name={posting.name}
-              species={posting.species}
-              date={posting.date}
-              address={posting.address}
-              age={posting.age}
-              gender={posting.gender}
-              traits={posting.traits}
-              colour={posting.colour}
-            />
-          ))}
+          {postings.length ? (
+            <>
+              {postings.map((posting) => (
+                <Card
+                  key={posting._id}
+                  _id={posting._id}
+                  image={posting.images[0]}
+                  name={posting.name}
+                  species={posting.species}
+                  date={posting.date}
+                  address={posting.address}
+                  age={posting.age}
+                  gender={posting.gender}
+                  traits={posting.traits}
+                  colour={posting.colour}
+                />
+              ))}
+            </>
+          ) : (
+            <Message>There are not any postings</Message>
+          )}
         </Cards>
 
         <Map />
@@ -82,6 +88,14 @@ const Cards = styled.div`
       margin-bottom: 0;
     }
   }
+`;
+
+const Message = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-color-50);
 `;
 
 export default Home;

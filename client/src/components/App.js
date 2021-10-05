@@ -10,13 +10,22 @@ import Profile from './Profile';
 import Pet from './Pet';
 import Form from './Form';
 import Loader from './common/Loader';
+import UnknownPage from './UnknownPage';
 
 const App = () => {
   const [visibleForm, setVisibleForm] = useState(null);
   const { isLoading } = useAuth0();
 
   // wait for auth0 user data
-  // if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <>
+        <GlobalStyles />
+        <LoaderContainer>
+          <Loader />
+        </LoaderContainer>
+      </>
+    );
 
   return (
     <BrowserRouter>
@@ -37,7 +46,9 @@ const App = () => {
             <Pet />
           </Route>
 
-          <Route path="">404: Oops!</Route>
+          <Route path="">
+            <UnknownPage />
+          </Route>
         </Switch>
       </Main>
 
@@ -46,6 +57,10 @@ const App = () => {
     </BrowserRouter>
   );
 };
+
+const LoaderContainer = styled.div`
+  margin: auto;
+`;
 
 const Main = styled.main`
   flex-grow: 1;
