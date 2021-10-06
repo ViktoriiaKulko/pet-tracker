@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import { AppContext } from '../state';
@@ -13,6 +13,24 @@ const Home = () => {
   const {
     state: { status, postings },
   } = useContext(AppContext);
+  const [currentFilter, setCurrentFilter] = useState(null);
+  const [displayedPostings, setDisplayedPostings] = useState(postings);
+
+  // filter displayed postings if currentFilter changes
+  useEffect(() => {
+    if (currentFilter) {
+      const filteredPostings = postings.filter(
+        (posting) => posting.species === currentFilter
+      );
+      setDisplayedPostings(filteredPostings);
+    } else {
+      setDisplayedPostings(postings);
+    }
+  }, [currentFilter, postings]);
+
+  useEffect(() => {
+    setDisplayedPostings(postings);
+  }, [postings]);
 
   // wait for getting postings
   if (status === 'awaiting-response')
@@ -33,13 +51,16 @@ const Home = () => {
   // got postings
   return (
     <>
-      <Filters />
+      <Filters
+        currentFilter={currentFilter}
+        setCurrentFilter={setCurrentFilter}
+      />
 
       <Content>
         <Cards>
-          {postings.length ? (
+          {displayedPostings.length ? (
             <>
-              {postings.map((posting) => (
+              {displayedPostings.map((posting) => (
                 <Card
                   {...posting}
                   key={posting._id}
@@ -53,7 +74,7 @@ const Home = () => {
         </Cards>
 
         <Map
-          postings={postings.map((posting) => {
+          postings={displayedPostings.map((posting) => {
             return {
               species: posting.species,
               address: posting.address,

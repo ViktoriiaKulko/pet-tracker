@@ -1,12 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ChipOutline } from '../common/Chip';
 
-const Filters = () => {
+import Filter from './Filter';
+
+const Filters = ({ currentFilter, setCurrentFilter }) => {
   return (
     <StyledFilters>
-      <ChipOutline selected>Filter 1</ChipOutline>
-      <ChipOutline>Filter 2</ChipOutline>
+      <Filter
+        image="dog"
+        selected={currentFilter === 'dog'}
+        handleClick={setCurrentFilter}
+      />
+
+      <Filter
+        image="cat"
+        selected={currentFilter === 'cat'}
+        handleClick={setCurrentFilter}
+      />
+
+      <Filter
+        image="hamster"
+        selected={currentFilter === 'hamster'}
+        handleClick={setCurrentFilter}
+      />
     </StyledFilters>
   );
 };
