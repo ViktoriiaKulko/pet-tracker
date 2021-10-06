@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from 'react-router-dom';
 
 import { AppContext } from '../../state';
 
@@ -8,7 +9,7 @@ import Icon from '../common/Icon';
 import AddIcon from '../icons/AddIcon';
 
 const Controls = ({ setVisibleForm }) => {
-  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+  const { loginWithRedirect, user, isAuthenticated } = useAuth0();
   const {
     actions: { setUser },
   } = useContext(AppContext);
@@ -30,7 +31,7 @@ const Controls = ({ setVisibleForm }) => {
     <StyledControls>
       {isAuthenticated ? (
         <>
-          <UserName>{user.given_name}</UserName>
+          <UserName to="/profile">{user.given_name}</UserName>
           <Button type="button" onClick={() => setVisibleForm(true)}>
             <Icon>
               <AddIcon />
@@ -40,11 +41,6 @@ const Controls = ({ setVisibleForm }) => {
       ) : (
         <AuthButton onClick={() => loginWithRedirect()}>Log In</AuthButton>
       )}
-
-      {/* TODO: create a log out button */}
-      {/* <button onClick={() => logout({ returnTo: window.location.origin })}>
-        Log Out
-      </button> */}
     </StyledControls>
   );
 };
@@ -73,10 +69,16 @@ const AuthButton = styled.button`
   }
 `;
 
-const UserName = styled.div`
+const UserName = styled(Link)`
   font-size: 14px;
   line-height: 20px;
   color: var(--secondary-color-50);
+  text-decoration: none;
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--secondary-color);
+  }
 `;
 
 const Button = styled.button`

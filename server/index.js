@@ -32,7 +32,7 @@ const app = express()
   .get('/postings/lost', getLostPets)
   .get('/postings/found', getFoundPets)
   .get('/postings/:_id/:action', getPet)
-  .get('/user/:_id', getUser)
+  .get('/user/:email', getUser)
 
   // catch all endpoint
   .get('*', (req, res) => {

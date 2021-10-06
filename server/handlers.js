@@ -138,12 +138,12 @@ const getPet = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const { _id } = req.params;
+  const { email } = req.params;
 
   try {
     const client = req.app.locals.client;
     const db = client.db(DATA_BASE);
-    const user = await db.collection(USERS_COLLECTION).findOne({ _id });
+    const user = await db.collection(USERS_COLLECTION).findOne({ email });
 
     if (user) {
       sendResponse({ res, status: 200, data: user });

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -14,7 +14,7 @@ import UnknownPage from './UnknownPage';
 
 const App = () => {
   const [visibleForm, setVisibleForm] = useState(null);
-  const { isLoading } = useAuth0();
+  const { isLoading, isAuthenticated } = useAuth0();
 
   // wait for auth0 user data
   if (isLoading)
@@ -39,7 +39,7 @@ const App = () => {
           </Route>
 
           <Route path="/profile">
-            <Profile />
+            {isAuthenticated ? <Profile /> : <Redirect to="/" />}
           </Route>
 
           <Route path="/pet/:_id/:action">

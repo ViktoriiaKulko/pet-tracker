@@ -24,7 +24,6 @@ const Header = ({ setVisibleForm }) => {
 const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
-  flex-shrink: 0;
   padding: 16px 32px;
 `;
 

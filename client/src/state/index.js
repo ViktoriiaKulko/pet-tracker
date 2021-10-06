@@ -31,6 +31,10 @@ const reducer = produce((draft, action) => {
       draft.user = action.user;
       break;
     }
+    case 'REMOVE-USER': {
+      draft.user = null;
+      break;
+    }
     default:
       throw new Error(`The action "${action.type}" doesn't exist`);
   }
@@ -45,6 +49,7 @@ export const AppProvider = ({ children }) => {
     dispatch({ type: 'SET-POSTINGS-SUCCESS', ...data });
   const setPostingsError = () => dispatch({ type: 'SET-POSTINGS-ERROR' });
   const setUser = (data) => dispatch({ type: 'SET-USER', ...data });
+  const removeUser = () => dispatch({ type: 'REMOVE-USER' });
 
   // thunks
   const getFoundPets = async () => {
@@ -90,6 +95,7 @@ export const AppProvider = ({ children }) => {
           setPostingsSuccess,
           setPostingsError,
           setUser,
+          removeUser,
         },
         thunks: { getFoundPets, getLostPets },
       }}

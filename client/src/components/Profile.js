@@ -14,6 +14,7 @@ const Profile = () => {
 };
 
 const StyledProfile = styled.div`
+  height: 100%;
   display: grid;
   align-items: start;
   grid-template-columns: 5fr 7fr;

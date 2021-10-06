@@ -56,7 +56,7 @@ const Pet = () => {
   // got the posting
   return (
     <StyledPet>
-      <Paper fullHeight>
+      <Paper>
         <Wrapper>
           <Description>
             <Photos>
@@ -126,6 +126,10 @@ const StyledPet = styled.div`
   font-size: 16px;
   line-height: 20px;
   margin: 16px 0;
+
+  & > div {
+    height: 100%;
+  }
 `;
 
 const Wrapper = styled.div`
