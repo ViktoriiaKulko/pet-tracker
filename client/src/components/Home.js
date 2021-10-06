@@ -41,18 +41,9 @@ const Home = () => {
             <>
               {postings.map((posting) => (
                 <Card
+                  {...posting}
                   key={posting._id}
-                  _id={posting._id}
-                  action={posting.action}
                   image={posting.images[0]}
-                  name={posting.name}
-                  species={posting.species}
-                  date={posting.date}
-                  address={posting.address}
-                  age={posting.age}
-                  gender={posting.gender}
-                  traits={posting.traits}
-                  colour={posting.colour}
                 />
               ))}
             </>

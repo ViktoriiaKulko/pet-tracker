@@ -1,4 +1,5 @@
 const assert = require('assert');
+const { log } = require('console');
 const { v4: uuidv4 } = require('uuid');
 
 const { sendResponse } = require('./utils');
@@ -137,6 +138,50 @@ const getPet = async (req, res) => {
   }
 };
 
+const deletePosting = async (req, res) => {
+  const { _id, action, email } = req.body;
+
+  try {
+    const client = req.app.locals.client;
+    const db = client.db(DATA_BASE);
+
+    // update user's data
+    const currentUser = await db
+      .collection(USERS_COLLECTION)
+      .findOne({ email });
+
+    if (currentUser) {
+      const { foundPets, lostPets } = currentUser;
+
+      if (action === 'found') {
+        foundPets.splice(foundPets.indexOf(_id), 1);
+      } else {
+        lostPets.splice(lostPets.indexOf(_id), 1);
+      }
+
+      const updatedData = action === 'found' ? { foundPets } : { lostPets };
+      await db
+        .collection(USERS_COLLECTION)
+        .updateOne({ email }, { $set: { ...updatedData } });
+    }
+
+    // delete posting from db
+    const collection =
+      action === 'found' ? FOUND_PETS_COLLECTION : LOST_PETS_COLLECTION;
+    const result = await db.collection(collection).deleteOne({ _id });
+    assert.equal(1, result.deletedCount, 'Posting not found');
+
+    sendResponse({
+      res,
+      status: 201,
+      data: { ...req.body },
+      message: 'Posting was removed.',
+    });
+  } catch (err) {
+    sendResponse({ res, status: 500, message: err.message });
+  }
+};
+
 const getUser = async (req, res) => {
   const { email } = req.params;
 
@@ -155,7 +200,7 @@ const getUser = async (req, res) => {
         message: 'The user not found.',
       });
     }
-  } catch (error) {
+  } catch (err) {
     sendResponse({ res, status: 500, message: err.message });
   }
 };
@@ -165,5 +210,6 @@ module.exports = {
   getLostPets,
   getFoundPets,
   getPet,
+  deletePosting,
   getUser,
 };

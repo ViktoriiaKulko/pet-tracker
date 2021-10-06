@@ -1,19 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { getUserAPI, getPetAPI } from '../../api';
+import { getUserAPI, getPetAPI, removePostingAPI } from '../../api';
 import { AppContext } from '../../state';
 
 import Paper from '../common/Paper';
 import Title from '../common/Title';
 import { ChipOutline } from '../common/Chip';
 import Card from '../common/Card';
+import LoaderIcon from '../icons/LoaderIcon';
+import Loader from '../common/Loader/index';
 
 const Postings = () => {
   const [foundPostings, setFoundPostings] = useState(null);
   const [lostPostings, setLostPostings] = useState(null);
   const [currentFilter, setCurrentFilter] = useState('found');
-  const [currentPostings, setCurrentPostings] = useState('found');
+  const [currentPostings, setCurrentPostings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const {
@@ -83,54 +85,79 @@ const Postings = () => {
     setCurrentPostings(postings);
   };
 
+  const handleRevomePosting = async (_id, action) => {
+    try {
+      const res = await removePostingAPI({ _id, action, email: user.email });
+
+      if (res.ok) {
+        if (action === 'found') {
+          foundPostings.splice(foundPostings.indexOf(_id), 1);
+          setCurrentPostings([...foundPostings]);
+          setFoundPostings([...foundPostings]);
+        } else {
+          lostPostings.splice(lostPostings.indexOf(_id), 1);
+          setFoundPostings(lostPostings);
+          setCurrentPostings(lostPostings);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <StyledProfile>
       <Paper>
-        <Wrapper>
-          <div>
-            <Title left>Postings</Title>
-            <Chips>
-              <ChipOutline
-                selected={currentFilter === 'found'}
-                handleClick={() => handleFilterClick('found', foundPostings)}
-              >
-                Found
-              </ChipOutline>
+        {loading && (
+          <LoaderContainer>
+            <Loader image="cat" />
+          </LoaderContainer>
+        )}
 
-              <ChipOutline
-                selected={currentFilter === 'lost'}
-                handleClick={() => handleFilterClick('lost', lostPostings)}
-              >
-                Lost
-              </ChipOutline>
-            </Chips>
-          </div>
+        {error && <Message>{error}</Message>}
 
-          {/* {loading && <div>Loading..</div>} */}
-          {/* {error && <ErrorMessage>{error}</ErrorMessage>} */}
+        {!(loading || error) && (
+          <Wrapper>
+            <div>
+              <Title left>Postings</Title>
+              <Chips>
+                <ChipOutline
+                  selected={currentFilter === 'found'}
+                  handleClick={() => handleFilterClick('found', foundPostings)}
+                >
+                  Found
+                </ChipOutline>
 
-          {!(loading || error) && (
+                <ChipOutline
+                  selected={currentFilter === 'lost'}
+                  handleClick={() => handleFilterClick('lost', lostPostings)}
+                >
+                  Lost
+                </ChipOutline>
+              </Chips>
+            </div>
+
             <Container>
-              {currentPostings.map((posting) => (
-                <Card
-                  key={posting._id}
-                  _id={posting._id}
-                  action={posting.action}
-                  image={posting.images[0]}
-                  name={posting.name}
-                  species={posting.species}
-                  date={posting.date}
-                  address={posting.address}
-                  age={posting.age}
-                  gender={posting.gender}
-                  traits={posting.traits}
-                  colour={posting.colour}
-                  status="active"
-                />
-              ))}
+              {currentPostings.length ? (
+                <>
+                  {currentPostings.map((posting) => (
+                    <Card
+                      {...posting}
+                      key={posting._id}
+                      image={posting.images[0]}
+                      profile
+                      handleClick={() =>
+                        handleRevomePosting(posting._id, posting.action)
+                      }
+                    />
+                  ))}
+                </>
+              ) : (
+                <Message>You don't have any postings</Message>
+              )}
             </Container>
-          )}
-        </Wrapper>
+          </Wrapper>
+        )}
       </Paper>
     </StyledProfile>
   );
@@ -183,10 +210,15 @@ const Container = styled.div`
   }
 `;
 
-const ErrorMessage = styled.div`
+const Message = styled.div`
   color: var(--secondary-color-50);
   text-align: center;
-  margin: 40px auto;
+  padding: 40px 0;
+`;
+
+const LoaderContainer = styled.div`
+  padding: 40px;
+  margin: 0 auto;
 `;
 
 export default Postings;

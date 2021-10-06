@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Postings from './Postings';
-import User from './User/index';
+import User from './User';
 
 const Profile = () => {
   return (

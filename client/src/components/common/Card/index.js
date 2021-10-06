@@ -8,6 +8,50 @@ import { upperCaseFirstLetter } from '../../../utils';
 import Paper from '../Paper';
 import Button from '../Button';
 
+// card content
+const Content = ({
+  image,
+  species,
+  name,
+  date,
+  address,
+  age,
+  gender,
+  colour,
+  traits,
+}) => {
+  const visibleDescription = age || gender || colour || traits;
+
+  return (
+    <>
+      <FlexContainer>
+        <Image style={{ backgroundImage: `url('${image}')` }} />
+        <div>
+          <Name>{name ? name : 'Unknown'}</Name>
+          <FlexContainer>
+            <div>{upperCaseFirstLetter(species)}</div>
+            <Divider />
+            <div>
+              {format(parseISO(date), 'dd.MM.yyyy')} at{' '}
+              {format(parseISO(date), 'HH:mm')}
+            </div>
+          </FlexContainer>
+          <Address>{address}</Address>
+        </div>
+      </FlexContainer>
+
+      {visibleDescription && (
+        <Description>
+          {age ? `${age}  old ${species}. ` : ''}
+          {gender ? `${upperCaseFirstLetter(gender)}. ` : ''}
+          {colour ? `${upperCaseFirstLetter(colour)} colour. ` : ''}
+          {traits ? `${upperCaseFirstLetter(traits)}.` : ''}
+        </Description>
+      )}
+    </>
+  );
+};
+
 const Card = ({
   _id,
   action,
@@ -21,62 +65,49 @@ const Card = ({
   age,
   traits,
   selected,
-  status,
+  profile,
+  handleClick,
 }) => {
-  const visibleDescription = age || gender || colour || traits;
-
   return (
     <Paper>
-      {/* mark as selected the posting selected on the map */}
-      {/* mark as outlined the posting in the user's profile */}
-      <Wrapper
-        selected={selected}
-        outlined={status}
-        to={`/pet/${_id}/${action}`}
-      >
-        <FlexContainer>
-          <Image style={{ backgroundImage: `url('${image}')` }} />
-          <div>
-            <Name>{name ? name : 'Unknown'}</Name>
-            <FlexContainer>
-              <div>{upperCaseFirstLetter(species)}</div>
-              <Divider />
-              <div>
-                {format(parseISO(date), 'dd.MM.yyyy')} at{' '}
-                {format(parseISO(date), 'HH:mm')}
-              </div>
-            </FlexContainer>
-            <Address>{address}</Address>
-          </div>
-        </FlexContainer>
-
-        {visibleDescription && (
-          <Description>
-            {age ? `${age}  old ${species}. ` : ''}
-            {gender ? `${upperCaseFirstLetter(gender)}. ` : ''}
-            {colour ? `${upperCaseFirstLetter(colour)} colour. ` : ''}
-            {traits ? `${upperCaseFirstLetter(traits)}.` : ''}
-          </Description>
-        )}
-
-        {/* show these blocks in the user's profile depends on the posting status */}
-        {status === 'active' && (
-          <Status>
-            <Button>Close posting</Button>
-          </Status>
-        )}
-
-        {status === 'closed' && (
-          <Status>
-            <Message>Posting was closed</Message>
-          </Status>
-        )}
-      </Wrapper>
+      {/* if card in profile  */}
+      {profile ? (
+        <Wrapper>
+          <Content
+            image={image}
+            species={species}
+            name={name}
+            date={date}
+            address={address}
+            age={age}
+            gender={gender}
+            colour={colour}
+            traits={traits}
+          />
+          <RemoveButton>
+            <Button handleClick={handleClick}>Close posting</Button>
+          </RemoveButton>
+        </Wrapper>
+      ) : (
+        <StyledLink selected={selected} to={`/pet/${_id}/${action}`}>
+          <Content
+            image={image}
+            species={species}
+            name={name}
+            date={date}
+            address={address}
+            age={age}
+            gender={gender}
+            colour={colour}
+            traits={traits}
+          />
+        </StyledLink>
+      )}
     </Paper>
   );
 };
 
-const Wrapper = styled(Link)`
+const StyledLink = styled(Link)`
   display: block;
   font-size: 12px;
   line-height: 16px;
@@ -85,8 +116,6 @@ const Wrapper = styled(Link)`
   border: 1px solid transparent;
   border-color: ${(props) =>
     props.selected ? 'var(--accent-secondary-color)' : 'transparent'};
-  border-color: ${(props) =>
-    props.outlined ? 'var(--accent-primary-color)' : 'transparent'};
   border-radius: 16px;
   transition: border-color 0.3s;
   padding: 19px;
@@ -94,6 +123,15 @@ const Wrapper = styled(Link)`
   &:hover {
     border-color: var(--accent-primary-color);
   }
+`;
+
+const Wrapper = styled.div`
+  font-size: 12px;
+  line-height: 16px;
+  border: 1px solid var(--accent-primary-color);
+  border-radius: 16px;
+  transition: border-color 0.3s;
+  padding: 19px;
 `;
 
 const FlexContainer = styled.div`
@@ -138,14 +176,8 @@ const Description = styled.div`
   margin-top: 16px;
 `;
 
-const Status = styled.div`
+const RemoveButton = styled.div`
   margin-top: 12px;
-`;
-
-const Message = styled.div`
-  font-size: 12px;
-  line-height: 16px;
-  color: var(--accent-secondary-color);
 `;
 
 export default Card;
