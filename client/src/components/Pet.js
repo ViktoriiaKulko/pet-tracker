@@ -9,6 +9,7 @@ import { upperCaseFirstLetter } from '../utils';
 import Paper from './common/Paper';
 import Loader from './common/Loader';
 import Map from './Map';
+import ImageCollection from './ImageCollection/index';
 
 const Pet = () => {
   const { _id, action } = useParams();
@@ -53,40 +54,43 @@ const Pet = () => {
       </Container>
     );
 
+  const displayedDate = `${format(
+    parseISO(pet.date),
+    'dd.MM.yyyy'
+  )} at ${format(parseISO(pet.date), 'HH:mm')}`;
+
+  const displayedText = () => {
+    let text = '';
+
+    if (pet.age) {
+      text += `${pet.age}  old ${pet.species}. `;
+    }
+    if (pet.gender) {
+      text += `${upperCaseFirstLetter(pet.gender)}. `;
+    }
+    if (pet.colour) {
+      text += `${upperCaseFirstLetter(pet.colour)} colour. `;
+    }
+    if (pet.traits) {
+      text += `${upperCaseFirstLetter(pet.traits)}.`;
+    }
+    return text;
+  };
+
   // got the posting
   return (
     <StyledPet>
       <Paper>
         <Wrapper>
-          <Description>
-            <Photos>
-              <MainPhoto
-                style={{ backgroundImage: `url("${pet.images[0]}")` }}
-              />
+          <Content>
+            <ImageCollection images={pet.images} />
 
-              {pet.images.length > 1 && (
-                <OtherPhotos>
-                  {pet.images
-                    .filter((_, index) => index !== 0)
-                    .map((image, index) => (
-                      <div
-                        key={index}
-                        style={{ backgroundImage: `url("${image}")` }}
-                      ></div>
-                    ))}
-                </OtherPhotos>
-              )}
-            </Photos>
-
-            <div>
+            <Description>
               <Name>{pet.name ? pet.name : 'Name unknown'}</Name>
               <Info>
                 <div>{upperCaseFirstLetter(pet.species)}</div>
                 <Divider />
-                <div>
-                  {format(parseISO(pet.date), 'dd.MM.yyyy')} at{' '}
-                  {format(parseISO(pet.date), 'HH:mm')}
-                </div>
+                <div>{displayedDate}</div>
               </Info>
               <Address>{pet.address}</Address>
 
@@ -95,16 +99,9 @@ const Pet = () => {
                 <Contact>{pet.userEmail}</Contact>
               </div>
 
-              <About>
-                {pet.age ? `${pet.age}  old ${pet.species}. ` : ''}
-                {pet.gender ? `${upperCaseFirstLetter(pet.gender)}. ` : ''}
-                {pet.colour
-                  ? `${upperCaseFirstLetter(pet.colour)} colour. `
-                  : ''}
-                {pet.traits ? `${upperCaseFirstLetter(pet.traits)}.` : ''}
-              </About>
-            </div>
-          </Description>
+              <About>{displayedText()}</About>
+            </Description>
+          </Content>
 
           <Map postings={[{ address: pet.address, species: pet.species }]} />
         </Wrapper>
@@ -139,41 +136,13 @@ const Wrapper = styled.div`
   padding: 32px;
 `;
 
-const Photos = styled.div`
+const Content = styled.div`
   display: flex;
-  margin-right: 32px;
-`;
-
-const MainPhoto = styled.div`
-  width: 320px;
-  height: 320px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: 4px;
-`;
-
-const OtherPhotos = styled.div`
-  margin-left: 8px;
-
-  & > div {
-    width: 74px;
-    height: 74px;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    border-radius: 4px;
-    margin-bottom: 8px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
+  margin-bottom: 20px;
 `;
 
 const Description = styled.div`
-  display: flex;
-  margin-bottom: 20px;
+  margin-left: 32px;
 `;
 
 const Name = styled.div`
