@@ -11,6 +11,7 @@ import Pet from './Pet';
 import Form from './Form';
 import Loader from './common/Loader';
 import UnknownPage from './UnknownPage';
+import Overlay from './common/Overlay';
 
 const App = () => {
   const [visibleForm, setVisibleForm] = useState(null);
@@ -67,16 +68,6 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-`;
-
-// background for modal windows
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: var(--secondary-color-50);
 `;
 
 export default App;

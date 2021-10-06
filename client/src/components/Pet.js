@@ -9,7 +9,7 @@ import { upperCaseFirstLetter } from '../utils';
 import Paper from './common/Paper';
 import Loader from './common/Loader';
 import Map from './Map';
-import ImageCollection from './ImageCollection/index';
+import ImageList from './ImageList';
 
 const Pet = () => {
   const { _id, action } = useParams();
@@ -83,7 +83,7 @@ const Pet = () => {
       <Paper>
         <Wrapper>
           <Content>
-            <ImageCollection images={pet.images} />
+            <ImageList images={pet.images} />
 
             <Description>
               <Name>{pet.name ? pet.name : 'Name unknown'}</Name>

@@ -222,8 +222,7 @@ const Wrapper = styled.div`
   bottom: 0;
   top: 40px;
   transform: translate(-50%, 100%);
-  animation: ;
-  z-index: 2;
+  z-index: 3;
 
   &.visible {
     animation: 0.25s ${up} ease-in forwards;

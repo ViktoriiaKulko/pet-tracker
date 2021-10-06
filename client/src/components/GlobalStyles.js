@@ -4,6 +4,7 @@ export default createGlobalStyle`
   :root {
     /* color */
     --primary-color: #fff;
+    --primary-color-75: rgba(255, 255, 255, 0.75);
 
     --secondary-color: #000;
     --secondary-color-50: rgba(0, 0, 0, 0.5);

@@ -8,8 +8,7 @@ import Paper from '../common/Paper';
 import Title from '../common/Title';
 import { ChipOutline } from '../common/Chip';
 import Card from '../common/Card';
-import LoaderIcon from '../icons/LoaderIcon';
-import Loader from '../common/Loader/index';
+import Loader from '../common/Loader';
 
 const Postings = () => {
   const [foundPostings, setFoundPostings] = useState(null);

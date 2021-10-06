@@ -26,7 +26,7 @@ const StyledPreview = styled.div`
   position: relative;
   border-radius: 4px;
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
   margin-right: 20px;
