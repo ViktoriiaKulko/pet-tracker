@@ -3,9 +3,6 @@ import styled from 'styled-components';
 
 import { AppContext } from '../../state';
 
-import Icon from '../common/Icon';
-import SearchIcon from '../icons/SearchIcon';
-
 const Filters = () => {
   const {
     state: { currentFilter },
@@ -34,16 +31,6 @@ const Filters = () => {
       >
         Lost
       </Tab>
-
-      {/* TODO: Add animation, decide how to filter */}
-      <Search>
-        <Input type="text" placeholder="Filter" />
-        <Button type="button">
-          <Icon>
-            <SearchIcon />
-          </Icon>
-        </Button>
-      </Search>
     </StyledFilters>
   );
 };
@@ -87,49 +74,6 @@ const Tab = styled.button`
   &:hover {
     color: var(--secondary-color);
   }
-`;
-
-const Search = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding-right: 8px;
-  padding-left: 16px;
-  margin-left: 16px;
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 1px;
-    height: 16px;
-    background-color: var(--secondary-color-12);
-  }
-`;
-
-const Input = styled.input`
-  width: 92px;
-  height: 40px;
-  font-size: 14px;
-  line-height: 20px;
-  border: none;
-  outline: none;
-  caret-color: var(--accent-primary-color);
-  margin-right: 8px;
-`;
-
-const Button = styled.button`
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  line-height: 0;
-  color: var(--primary-color);
-  background-color: var(--accent-primary-color);
-  border: none;
-  border-radius: 50%;
 `;
 
 export default Filters;
