@@ -66,35 +66,32 @@ const Home = () => {
         setCurrentFilter={setCurrentFilter}
       />
 
-      <Content>
-        <Cards>
-          {displayedPostings.length ? (
-            <>
-              {displayedPostings.map((posting) => (
-                <Card
-                  {...posting}
-                  key={posting._id}
-                  image={posting.images[0]}
-                  selected={selectedPostingId === posting._id}
-                />
-              ))}
-            </>
-          ) : (
-            <Message>There are not any postings</Message>
-          )}
-        </Cards>
-
-        <Map
-          postings={displayedPostings.map((posting) => {
-            return {
-              _id: posting._id,
-              species: posting.species,
-              address: posting.address,
-            };
-          })}
-          handleMarkerClick={handleMarkerClick}
-        />
-      </Content>
+      {displayedPostings.length ? (
+        <Content>
+          <Cards>
+            {displayedPostings.map((posting) => (
+              <Card
+                {...posting}
+                key={posting._id}
+                image={posting.images[0]}
+                selected={selectedPostingId === posting._id}
+              />
+            ))}
+          </Cards>
+          <Map
+            postings={displayedPostings.map((posting) => {
+              return {
+                _id: posting._id,
+                species: posting.species,
+                address: posting.address,
+              };
+            })}
+            handleMarkerClick={handleMarkerClick}
+          />
+        </Content>
+      ) : (
+        <Message>There are not any postings</Message>
+      )}
     </>
   );
 };

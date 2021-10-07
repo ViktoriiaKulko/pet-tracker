@@ -103,7 +103,9 @@ const Pet = () => {
             </Description>
           </Content>
 
-          <Map postings={[{ address: pet.address, species: pet.species }]} />
+          <Map
+            postings={[{ _id, address: pet.address, species: pet.species }]}
+          />
         </Wrapper>
       </Paper>
     </StyledPet>
