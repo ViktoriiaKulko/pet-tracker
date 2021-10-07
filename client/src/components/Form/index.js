@@ -99,6 +99,7 @@ const Form = ({ visibleForm, setVisibleForm }) => {
         date: formData.date.value,
         address: formData.address.value,
         images: imageUrls,
+        postingDate: new Date(),
       });
 
       // clean errors

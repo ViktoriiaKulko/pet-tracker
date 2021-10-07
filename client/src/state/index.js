@@ -1,6 +1,8 @@
 import React, { createContext, useReducer } from 'react';
 import produce from 'immer';
+
 import { getFoundPetsAPI, getLostPetsAPI } from '../api';
+import { sortPostingsByDate } from '../utils';
 
 const initialState = {
   status: 'idle',
@@ -59,7 +61,10 @@ export const AppProvider = ({ children }) => {
       const response = await getFoundPetsAPI();
 
       if (response.ok) {
-        setPostingsSuccess({ postings: response.data, currentFilter: 'found' });
+        setPostingsSuccess({
+          postings: response.data.sort(sortPostingsByDate),
+          currentFilter: 'found',
+        });
       } else {
         setPostingsError();
       }
@@ -76,7 +81,10 @@ export const AppProvider = ({ children }) => {
       const response = await getLostPetsAPI();
 
       if (response.ok) {
-        setPostingsSuccess({ postings: response.data, currentFilter: 'lost' });
+        setPostingsSuccess({
+          postings: response.data.sort(sortPostingsByDate),
+          currentFilter: 'lost',
+        });
       } else {
         setPostingsError();
       }

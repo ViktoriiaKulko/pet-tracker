@@ -16,3 +16,13 @@ export const getPositionFromAddress = async (address) => {
 
 export const upperCaseFirstLetter = (str) =>
   str[0].toUpperCase() + str.slice(1);
+
+export const sortPostingsByDate = (a, b) => {
+  if (a.postingDate < b.postingDate) {
+    return 1;
+  }
+  if (a.postingDate > b.postingDate) {
+    return -1;
+  }
+  return 0;
+};

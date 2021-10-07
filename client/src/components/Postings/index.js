@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { getUserAPI, getPetAPI, removePostingAPI } from '../../api';
 import { AppContext } from '../../state';
+import { sortPostingsByDate } from '../../utils';
 
 import Paper from '../common/Paper';
 import Title from '../common/Title';
@@ -45,7 +46,7 @@ const Postings = () => {
               }
             })
           );
-          setFoundPostings(foundPostings);
+          setFoundPostings(foundPostings.sort(sortPostingsByDate));
 
           // get the user's lost postings
           await Promise.all(
@@ -60,7 +61,7 @@ const Postings = () => {
               }
             })
           );
-          setLostPostings(lostPostings);
+          setLostPostings(lostPostings.sort(sortPostingsByDate));
 
           // set displayed postings
           setCurrentPostings(foundPostings);

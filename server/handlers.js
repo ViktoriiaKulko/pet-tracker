@@ -10,8 +10,6 @@ const {
   USERS_COLLECTION,
 } = require('./variables');
 
-// TODO: add date validation, fix required fields validation,
-//       catch errors, don't add action to post data
 const addPosting = async (req, res) => {
   const { userName, userEmail, action } = req.body;
 
