@@ -9,11 +9,17 @@ import anotherMarker from '../../assets/images/another-marker.svg';
 import cluster from '../../assets/images/cluster.svg';
 
 import { getPositionFromAddress } from '../../utils';
+import usePrevious from '../../hooks/usePrevious';
 
 let map;
+let markers = [];
 
 const Map = ({ postings, handleMarkerClick }) => {
   const mapEL = useRef(null);
+
+  // get previousPostings
+  const prevPostings = usePrevious(postings);
+
   // map uploading
   useEffect(() => {
     async function initMap() {
@@ -61,8 +67,16 @@ const Map = ({ postings, handleMarkerClick }) => {
           })
         );
 
+        const setMapOnAll = (map) => {
+          for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+          }
+        };
+        // deletes all markers in the array by removing references to them
+        setMapOnAll(null);
+        markers = [];
+
         // create markers
-        const markers = [];
         features.forEach((feature) => {
           const marker = new window.google.maps.Marker({
             position: feature.position,
@@ -103,11 +117,20 @@ const Map = ({ postings, handleMarkerClick }) => {
       }
     }
 
-    initMap();
+    // update map only if postings change, not change the order
+    if (prevPostings && postings) {
+      const prevPostingsIdsSorted = prevPostings
+        .map((post) => post._id)
+        .sort()
+        .toString();
 
-    return () => {
-      map = null;
-    };
+      const postingsIdsSorted = postings
+        .map((post) => post._id)
+        .sort()
+        .toString();
+
+      if (prevPostingsIdsSorted !== postingsIdsSorted) initMap();
+    }
   }, [postings]);
 
   return <StyledMap ref={mapEL}></StyledMap>;

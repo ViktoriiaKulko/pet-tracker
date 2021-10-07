@@ -27,11 +27,7 @@ const Home = () => {
     } else {
       setDisplayedPostings(postings);
     }
-  }, [currentFilter]);
-
-  useEffect(() => {
-    setDisplayedPostings(postings);
-  }, [postings]);
+  }, [currentFilter, postings]);
 
   const handleMarkerClick = (postingId) => {
     const selectedPosting = displayedPostings.find(
