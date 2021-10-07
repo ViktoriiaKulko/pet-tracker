@@ -14,7 +14,7 @@ const Home = () => {
     state: { status, postings },
   } = useContext(AppContext);
   const [currentFilter, setCurrentFilter] = useState(null);
-  const [displayedPostings, setDisplayedPostings] = useState(postings);
+  const [displayedPostings, setDisplayedPostings] = useState([]);
 
   // filter displayed postings if currentFilter changes
   useEffect(() => {
@@ -26,7 +26,7 @@ const Home = () => {
     } else {
       setDisplayedPostings(postings);
     }
-  }, [currentFilter, postings]);
+  }, [currentFilter]);
 
   useEffect(() => {
     setDisplayedPostings(postings);

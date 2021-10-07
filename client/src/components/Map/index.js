@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { MarkerClusterer } from '@googlemaps/markerclusterer';
 
 import dogMarker from '../../assets/images/dog-marker.svg';
 import catMarker from '../../assets/images/cat-marker.svg';
 import hamsterMarker from '../../assets/images/hamster-marker.svg';
 import anotherMarker from '../../assets/images/another-marker.svg';
+import cluster from '../../assets/images/cluster.svg';
 
 import { getPositionFromAddress } from '../../utils';
 
@@ -12,7 +14,6 @@ let map;
 
 const Map = ({ postings }) => {
   const mapEL = useRef(null);
-
   // map uploading
   useEffect(() => {
     async function initMap() {
@@ -46,9 +47,8 @@ const Map = ({ postings }) => {
           another: { icon: anotherMarker },
         };
 
-        // markers
         const features = await Promise.all(
-          postings.map(async (posting, index) => {
+          postings.map(async (posting) => {
             const geometry = await getPositionFromAddress(posting.address);
             return {
               position: new window.google.maps.LatLng(
@@ -60,20 +60,48 @@ const Map = ({ postings }) => {
           })
         );
 
-        // create markers
-        for (let i = 0; i < features.length; i++) {
-          const marker = new window.google.maps.Marker({
-            position: features[i].position,
-            icon: icons[features[i].type].icon,
-            map,
+        // marker
+        const markers = features.map((feature, i) => {
+          return new window.google.maps.Marker({
+            position: feature.position,
+            icon: icons[feature.type].icon,
           });
+        });
 
-          marker.addListener('click', () => {
-            map.setZoom(15);
-            map.setCenter(marker.getPosition());
-            console.log(`marker ${features[i].type} clicked`);
-          });
-        }
+        // clusters
+        new MarkerClusterer({
+          markers,
+          map,
+          renderer: {
+            render({ count, position }) {
+              return new window.google.maps.Marker({
+                icon: cluster,
+                label: {
+                  text: String(count),
+                  color: 'rgba(255,255,255,0.9)',
+                  fontSize: '14px',
+                },
+                position,
+                zIndex: Number(window.google.maps.Marker.MAX_ZINDEX) + count,
+              });
+            },
+          },
+        });
+
+        // // create markers
+        // for (let i = 0; i < features.length; i++) {
+        //   const marker = new window.google.maps.Marker({
+        //     position: features[i].position,
+        //     icon: icons[features[i].type].icon,
+        //     map,
+        //   });
+
+        //   marker.addListener('click', () => {
+        //     map.setZoom(15);
+        //     map.setCenter(marker.getPosition());
+        //     console.log(`marker ${features[i].type} clicked`);
+        //   });
+        // }
       } catch (err) {
         console.log(err.message);
       }
@@ -93,10 +121,6 @@ const StyledMap = styled.div`
   flex-grow: 1;
   border-radius: 16px;
   border: 1px solid var(--secondary-color-25);
-
-  /* & div[role='button'] {
-    border: 1px solid red;
-  } */
 `;
 
 export default Map;
