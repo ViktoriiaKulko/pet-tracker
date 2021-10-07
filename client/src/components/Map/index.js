@@ -12,7 +12,7 @@ import { getPositionFromAddress } from '../../utils';
 
 let map;
 
-const Map = ({ postings }) => {
+const Map = ({ postings, handleMarkerClick }) => {
   const mapEL = useRef(null);
   // map uploading
   useEffect(() => {
@@ -51,6 +51,7 @@ const Map = ({ postings }) => {
           postings.map(async (posting) => {
             const geometry = await getPositionFromAddress(posting.address);
             return {
+              _id: posting._id,
               position: new window.google.maps.LatLng(
                 geometry.lat,
                 geometry.lng
@@ -60,15 +61,33 @@ const Map = ({ postings }) => {
           })
         );
 
-        // marker
-        const markers = features.map((feature, i) => {
-          return new window.google.maps.Marker({
+        // markers
+        // const markers = features.map((feature, i) => {
+        //   return new window.google.maps.Marker({
+        //     position: feature.position,
+        //     icon: icons[feature.type].icon,
+        //   });
+        // });
+
+        // create markers
+        const markers = [];
+        features.forEach((feature) => {
+          const marker = new window.google.maps.Marker({
             position: feature.position,
             icon: icons[feature.type].icon,
+            map,
+          });
+
+          markers.push(marker);
+
+          marker.addListener('click', () => {
+            // map.setZoom(15);
+            map.setCenter(marker.getPosition());
+            handleMarkerClick(feature._id);
           });
         });
 
-        // clusters
+        // create clusters
         new MarkerClusterer({
           markers,
           map,
@@ -87,21 +106,6 @@ const Map = ({ postings }) => {
             },
           },
         });
-
-        // // create markers
-        // for (let i = 0; i < features.length; i++) {
-        //   const marker = new window.google.maps.Marker({
-        //     position: features[i].position,
-        //     icon: icons[features[i].type].icon,
-        //     map,
-        //   });
-
-        //   marker.addListener('click', () => {
-        //     map.setZoom(15);
-        //     map.setCenter(marker.getPosition());
-        //     console.log(`marker ${features[i].type} clicked`);
-        //   });
-        // }
       } catch (err) {
         console.log(err.message);
       }

@@ -15,6 +15,7 @@ const Home = () => {
   } = useContext(AppContext);
   const [currentFilter, setCurrentFilter] = useState(null);
   const [displayedPostings, setDisplayedPostings] = useState([]);
+  const [selectedPostingId, setSelectedPostingId] = useState(null);
 
   // filter displayed postings if currentFilter changes
   useEffect(() => {
@@ -31,6 +32,19 @@ const Home = () => {
   useEffect(() => {
     setDisplayedPostings(postings);
   }, [postings]);
+
+  const handleMarkerClick = (postingId) => {
+    const selectedPosting = displayedPostings.find(
+      (posting) => posting._id === postingId
+    );
+    const index = displayedPostings.indexOf(selectedPosting);
+    const copyDisplayedPostings = [...displayedPostings];
+    // move selected posting to the first position
+    copyDisplayedPostings.unshift(...copyDisplayedPostings.splice(index, 1));
+
+    setSelectedPostingId(postingId);
+    setDisplayedPostings([...copyDisplayedPostings]);
+  };
 
   // wait for getting postings
   if (status === 'awaiting-response')
@@ -65,6 +79,7 @@ const Home = () => {
                   {...posting}
                   key={posting._id}
                   image={posting.images[0]}
+                  selected={selectedPostingId === posting._id}
                 />
               ))}
             </>
@@ -76,10 +91,12 @@ const Home = () => {
         <Map
           postings={displayedPostings.map((posting) => {
             return {
+              _id: posting._id,
               species: posting.species,
               address: posting.address,
             };
           })}
+          handleMarkerClick={handleMarkerClick}
         />
       </Content>
     </>
