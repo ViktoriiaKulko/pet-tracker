@@ -84,7 +84,7 @@ const Body = ({
         />
 
         <Input
-          label={`What is the approximate address you ${action} the pet?`}
+          label={`What is the address you ${action} the pet?`}
           value={formData.address.value}
           name="address"
           required

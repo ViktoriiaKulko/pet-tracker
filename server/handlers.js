@@ -1,5 +1,4 @@
 const assert = require('assert');
-const { log } = require('console');
 const { v4: uuidv4 } = require('uuid');
 
 const { sendResponse } = require('./utils');

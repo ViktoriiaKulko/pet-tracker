@@ -61,14 +61,6 @@ const Map = ({ postings, handleMarkerClick }) => {
           })
         );
 
-        // markers
-        // const markers = features.map((feature, i) => {
-        //   return new window.google.maps.Marker({
-        //     position: feature.position,
-        //     icon: icons[feature.type].icon,
-        //   });
-        // });
-
         // create markers
         const markers = [];
         features.forEach((feature) => {
@@ -81,7 +73,7 @@ const Map = ({ postings, handleMarkerClick }) => {
           markers.push(marker);
 
           marker.addListener('click', () => {
-            // map.setZoom(15);
+            map.setZoom(15);
             map.setCenter(marker.getPosition());
             handleMarkerClick(feature._id);
           });
