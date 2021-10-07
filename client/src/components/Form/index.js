@@ -202,27 +202,27 @@ const Form = ({ visibleForm, setVisibleForm }) => {
 // animation to show the form
 const up = keyframes`
   to {
-    transform: translate(-50%, 0);
+    transform: translate(-50%, -100%);
   }
 `;
 
 // animation to hide the form
 const down = keyframes`
   from {
-    transform: translate(-50%, 0);
+    transform: translate(-50%, -100%);
   }
   to {
-    transform: translate(-50%, 100%);
+    transform: translate(-50%, 0);
   }
 `;
 
 const Wrapper = styled.div`
   width: 560px;
+  height: calc(100vh - 40px);
   position: absolute;
   left: 50%;
-  bottom: 0;
-  top: 40px;
-  transform: translate(-50%, 100%);
+  top: 100%;
+  transform: translate(-50%, 0);
   z-index: 3;
 
   &.visible {
