@@ -1,6 +1,6 @@
 # Pet Tracker
 
-A web application for finding missing pets.
+A web application for finding missing pets. My final project at Concordia Bootcamp.
 
 <img src='client/src/assets/images/screenshots/home-page.png' style='width: 100%' />
 
